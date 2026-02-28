@@ -23,9 +23,9 @@ Before touching the code, we need to create the spaces where our AI agents will 
 
 ---
 
-## ⚙️ Step 2: Environment Configuration
+## ⚙️ Step 2: Global Configuration & Routing
 
-With the repository cloned locally (`npm install` completed), open your codebase and locate the `.env` file. You will need to map your bot tokens to the respective OpenClaw instances.
+Regardless of which framework backend you use, you must map your tokens and channel IDs so the agents route correctly. This configuration is generally stored at the root of your Swarm.
 
 ```env
 # AI Provider Keys
@@ -37,7 +37,7 @@ ORCHESTRATOR_DISCORD_TOKEN="MTEx..."
 CODER_DISCORD_TOKEN="MTIy..."
 REVIEWER_DISCORD_TOKEN="MTMz..."
 
-# Channel Routing (Right click channels in Discord -> Copy Channel ID)
+# Channel Routing
 INBOX_CHANNEL_ID="1234567890"
 BRAINSTORM_CHANNEL_ID="0987654321"
 EXECUTION_CHANNEL_ID="1122334455"
@@ -46,40 +46,83 @@ REVIEW_CHANNEL_ID="5544332211"
 
 ---
 
-## 🤖 Step 3: Defining the Agent Personas
+## 🚀 Step 3: Framework-Specific Deployment
 
-In the `agents/` directory, you configure the behavior constraints. 
+Because the OpenClaw ecosystem offers highly specialized backends (ranging from edge-IoT footprints to high-security containers), your launch command depends on your chosen backend. Follow the track that applies to your framework.
 
-1. **Orchestrator (`agents/orchestrator.json`)**: Configured to only listen to the `INBOX_CHANNEL_ID`. If a human sends a prompt here, the Orchestrator breaks it down into sub-tasks and posts them to `BRAINSTORM_CHANNEL_ID`.
-2. **Coder Sub-Agent (`agents/coder.json`)**: Listens to `BRAINSTORM_CHANNEL_ID`. It executes the code, uses the `github_push` skill, and pings the Reviewer in `EXECUTION_CHANNEL_ID`.
-3. **Reviewer Agent (`agents/reviewer.json`)**: Listens to `EXECUTION_CHANNEL_ID`. It runs tests against the generated code. If tests fail, it scolds the Coder agent. If they pass, it merges the PR and logs to `🚀-deployments`.
+### Track 1: OpenClaw (The Monolithic Orchestrator)
+The default, robust TypeScript orchestrator. Best for massive SQL memories and high-tool-count environments.
 
----
-
-## 🚀 Step 4: Running the Swarm
-
-You cannot run all three agents in a single standard thread without blocking. We use a process manager like `pm2` or multiple terminal windows to run them simultaneously.
-
-### Option A: Using PM2 (Recommended for Production)
-Install PM2 globally to manage the Node processes:
+1. Ensure Node.js 18+ is installed.
+2. Clone the OpenClaw mono-repo and install dependencies: `npm install`
+3. Since we are running multiple heavy instances, use PM2:
 ```bash
 npm install -g pm2
-```
-Start the swarm utilizing our pre-packaged ecosystem file:
-```bash
 pm2 start ecosystem.config.js
 ```
-*This will spin up `orchestrator`, `coder`, and `reviewer` as background daemon processes.*
+*This spins up `openclaw-orchestrator`, `openclaw-coder`, and `openclaw-reviewer` automatically.*
 
-### Option B: Local Testing (Multiple Terminals)
-Open three separate terminal windows in VS Code:
-- **Terminal 1**: `npm run start:orchestrator`
-- **Terminal 2**: `npm run start:coder`
-- **Terminal 3**: `npm run start:reviewer`
+### Track 2: ZeroClaw
+The incredibly fast, trait-based Rust backend. Perfect for high-performance financial or data backends.
+
+1. Ensure Rust and Cargo are installed (`rustup`).
+2. Build the releases natively:
+```bash
+cargo build --release
+```
+3. Run the binaries explicitly defining their roles:
+```bash
+./target/release/zeroclaw --role orchestrator &
+./target/release/zeroclaw --role coder &
+./target/release/zeroclaw --role reviewer &
+```
+
+### Track 3: IronClaw
+The high-security WASM + Docker container fortress. Mandatory if your agents will execute untrusted code.
+
+1. Ensure Docker Desktop is running.
+2. IronClaw requires strict namespace definitions to prevent cross-contamination. Use Docker Compose to spin up isolated WASM networks:
+```bash
+docker-compose up -d --build orchestrator coder reviewer
+```
+*All agent communication will occur strictly through the external messaging API layer (Discord/Telegram), preventing internal container breakouts.*
+
+### Track 4: PicoClaw
+The ultra-efficient Go framework prioritizing sub-second startup times for edge utility workloads.
+
+1. Ensure Go 1.21+ is installed.
+2. Compile and run:
+```bash
+go build -o picoclaw main.go
+./picoclaw run -c orchestrator.yaml &
+./picoclaw run -c coder.yaml &
+./picoclaw run -c reviewer.yaml &
+```
+
+### Track 5: Nanobot
+The Python-centric data scientist friendly framework running on basic Markdown memory graphs.
+
+1. Ensure Python 3.10+ and `poetry` (or `pip`) are installed.
+2. Install dependencies: `poetry install`
+3. Launch via the built-in python manager:
+```bash
+poetry run python -m nanobot.swarm orchestrator coder reviewer
+```
+
+### Track 6: NanoClaw
+The absolutely minimal, ~500 line TypeScript bot. Ideal when running directly on a constrained environment like a Raspberry Pi targeting WhatsApp.
+
+1. Install Bun (or Node) for massive speed improvements on constrained systems: `npm install -g bun`
+2. Run directly against the single-file architectures:
+```bash
+bun start_orchestrator.ts &
+bun start_coder.ts &
+bun start_reviewer.ts &
+```
 
 ---
 
-## 🧪 Step 5: Triggering the Swarm
+## 🧪 Step 4: Triggering the Swarm
 
 Head over to your Discord server and type in the `#📥-inbox` channel:
 
@@ -88,7 +131,7 @@ Head over to your Discord server and type in the `#📥-inbox` channel:
 Jump between your Discord channels and watch the magic happen automatically:
 1. **Orchestrator** will reply acknowledging the receipt, and move to `#🧠-brainstorming` to post the architecture plan.
 2. **Coder** will read the plan in `#⚙️-execution-codex` and write the code.
-3. **Reviewer** will jump into `#⚖️-code-review`, run `flake8` and `pytest`, and finalize the deployment!
+3. **Reviewer** will jump into `#⚖️-code-review`, run validations against the code, and finalize the deployment!
 
 ---
 *Ready to integrate unique use cases into your new Swarm? Check out the [Community Use Cases](USECASES.md).*

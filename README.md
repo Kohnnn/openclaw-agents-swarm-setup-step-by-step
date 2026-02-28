@@ -17,6 +17,7 @@ Control and orchestrate an entire software agency or daily workflow system direc
 ## 📖 Table of Contents
 - [Features](#-features)
 - [Quick Start & Installation](#-quick-start--installation)
+- [OpenClaw Detailed Setup Guide (New!)](OPENCLAW_SETUP.md)
 - [Detailed Deployment Guide (New!)](DEPLOYMENT_GUIDE.md)
 - [Architecture: How It Works](#-architecture-how-it-works)
     - [The Agent Progression](#the-agent-progression)
@@ -64,8 +65,9 @@ Run the initialization script:
 npm run swarm:start
 ```
 
-> **🔥 Ready to launch the full pipeline?**  
-> For detailed instructions on running multiple agents simultaneously (Orchestrator + CI/CD Reviewers) via PM2 or multiple terminals, please read the full **[Step-by-Step Deployment Guide](DEPLOYMENT_GUIDE.md)**!
+> **🔥 Detailed Configuration & Launch**  
+> 1. To configure different AI Models (OpenAI, Ollama) and connect to Slack/Telegram, read the **[OpenClaw Setup Guide](OPENCLAW_SETUP.md)**.
+> 2. For instructions on running multiple agents simultaneously (Orchestrator + CI/CD Reviewers) via PM2 or multiple terminals, read the **[Step-by-Step Deployment Guide](DEPLOYMENT_GUIDE.md)**!
 
 ---
 
@@ -127,14 +129,62 @@ Different tasks require different foundational constraints. The open-source ecos
 
 Depending on your need for speed, memory constraint, or language preference, you can dynamically swap the underlying agent architectures:
 
-| Name | Engine / Focus | Diagram |
-|---|---|---|
-| [**NanoClaw**](https://github.com/qwibitai/nanoclaw) | Lightweight TypeScript. Ideal for single channels like WhatsApp. | <img src="images/nanoclaw.jpg" width="300"/> |
-| [**Nanobot**](https://github.com/HKUDS/nanobot) | Minimal Python agent utilizing simple Markdown memory formats. | <img src="images/nanobot.jpg" width="300"/> |
-| [**PicoClaw**](https://github.com/sipeed/picoclaw) | Super efficient Go framework. Perfect for specific edge utility tasks. | <img src="images/picoclaw.jpg" width="300"/> |
-| [**IronClaw**](https://github.com/nearai/ironclaw) | Secure, containerized Rust implementation utilizing WASM for strict boundaries. | <img src="images/ironclaw.jpg" width="300"/><br/><img src="images/irronclaw2.jpg" width="300"/> |
-| [**ZeroClaw**](https://github.com/zeroclaw-labs/zeroclaw) | Hybrid flexible Rust architecture with powerful trait-based plugin support. | <img src="images/zeroclaw.jpg" width="300"/> |
-| [**OpenClaw**](https://github.com/openclaw/openclaw) | The ultimate TypeScript mono-orchestrator. Supports 11+ channels and SQL memory. | <img src="images/openclaw.jpg" width="300"/> |
+### 1. NanoClaw
+- **Language:** TypeScript
+- **Optimal For:** Ultra-lightweight deployment, single channel messaging (e.g., WhatsApp).
+- **Core Specs:** ~500 lines of code, blazing fast startup, very low memory consumption.
+NanoClaw is the entry point for minimalistic deployments. It prioritizes a tiny footprint, making it perfect for simple, standalone bots that don't need persistent memory routing or major framework dependencies.
+<p align="center">
+  <a href="https://github.com/qwibitai/nanoclaw"><img src="images/nanoclaw.jpg" alt="NanoClaw" width="500"/></a>
+</p>
+
+### 2. Nanobot
+- **Language:** Python
+- **Optimal For:** Learning, research environments, and quick prototyping.
+- **Core Specs:** ~4,000 lines of code, ~0.8s startup, ~100MB memory, supports 9+ channels.
+Built to harness the power of Python's massive AI ecosystem, Nanobot uses simple Markdown & graph structures for its memory system. It's an excellent stepping stone for data scientists moving into automated agent creation.
+<p align="center">
+  <a href="https://github.com/HKUDS/nanobot"><img src="images/nanobot.jpg" alt="Nanobot" width="500"/></a>
+</p>
+
+### 3. PicoClaw
+- **Language:** Go
+- **Optimal For:** Edge devices and IoT workloads.
+- **Core Specs:** ~41,000 lines of code, <1s startup, <10MB memory footprint, supports 6+ channels.
+PicoClaw takes advantage of Go's exceptional compilation speed and concurrency. It is heavily utilized in edge-computing scenarios where resources are drastically limited but the agent still requires robust logic loops.
+<p align="center">
+  <a href="https://github.com/sipeed/picoclaw"><img src="images/picoclaw.jpg" alt="PicoClaw" width="500"/></a>
+</p>
+
+### 4. IronClaw
+- **Language:** Rust
+- **Optimal For:** High security, zero-trust deployments.
+- **Core Specs:** ~128,000 lines, <10ms startup, ~7.8MB memory, WASM + Docker security models.
+IronClaw is built like a fortress. By executing all unverified operations within heavily isolated WebAssembly (WASM) boundaries, it protects the core system from malicious code—critical when letting an agent browse the web or run Python scrips.
+<p align="center">
+  <a href="https://github.com/nearai/ironclaw"><img src="images/ironclaw.jpg" alt="IronClaw" width="400"/></a>
+  <img src="images/irronclaw2.jpg" alt="IronClaw Architecture" width="400"/>
+</p>
+
+### 5. ZeroClaw
+- **Language:** Rust
+- **Optimal For:** Maximum flexibility and enterprise backend routing.
+- **Core Specs:** ~144,000 lines, <10ms startup, <5MB memory footprint.
+ZeroClaw utilizes incredibly efficient SQLite hybrid memory and trait-based plugins. It is generally heavily customized and implemented in high-performance backend pipelines running autonomous financial or data operations.
+<p align="center">
+  <a href="https://github.com/zeroclaw-labs/zeroclaw"><img src="images/zeroclaw.jpg" alt="ZeroClaw" width="500"/></a>
+</p>
+
+### 6. OpenClaw (The Monolith)
+- **Language:** TypeScript
+- **Optimal For:** Absolutely everything. Orchestrating other agents.
+- **Core Specs:** ~400,000+ lines, full App + Docker abstraction, SQL + Markdown hybrid memory, accesses over 5,700 skills.
+OpenClaw is the orchestrator. While it uses more memory (~1.5GB) and has a longer startup time, it serves as the ultimate brain. It connects to 11+ channels, maintains huge database contexts, and most importantly, can summon other agents as sub-tools.
+<p align="center">
+  <a href="https://github.com/openclaw/openclaw"><img src="images/openclaw.jpg" alt="OpenClaw" width="500"/></a>
+</p>
+
+> **Note on Architectures & Scaling:** If you plan on deploying multiple agents simultaneously across different chat platforms as described above, please refer to the detailed **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)** for execution parameters.
 
 ### Comprehensive Comparison Matrix
 Need deep metrics to choose your base? View the data below:
