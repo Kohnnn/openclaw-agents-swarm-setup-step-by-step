@@ -70,6 +70,20 @@ There is no dedicated `openclaw agents set-soul` command. The supported pattern 
 1. Use `openclaw agents list --json` to find each agent workspace.
 2. Edit each workspace `SOUL.md` file directly.
 
+### Recommended injection workflow (template-based)
+
+Use the local template pack in `templates/` to standardize agent behavior:
+
+```bash
+cp templates/SOUL.md ~/.openclaw/workspace-coding/SOUL.md
+cp templates/AGENTS.md ~/.openclaw/workspace-coding/AGENTS.md
+cp templates/IDENTITY.md ~/.openclaw/workspace-coding/IDENTITY.md
+cp templates/USER.md ~/.openclaw/workspace-coding/USER.md
+```
+
+Then replace all `<...>` placeholders with task/domain-specific values.
+Use `templates/PROMPT_EXAMPLES.md` as your starter prompt catalog.
+
 Example structure to keep behavior deterministic:
 
 ```md
@@ -96,6 +110,7 @@ Recommended files per agent workspace:
 
 - `SOUL.md`: persona, scope, hard constraints.
 - `AGENTS.md`: execution policy and guardrails.
+- `IDENTITY.md`: public persona metadata for channel-facing behavior.
 - `USER.md`: local team preferences.
 
 ---
@@ -109,6 +124,35 @@ openclaw models set anthropic/claude-opus-4-6
 ```
 
 This sets global default. For true per-agent customization, use config paths.
+
+### Option A2: OAuth and token-based auth paths (not API key only)
+
+OpenClaw supports OAuth/setup-token style auth in addition to API keys.
+
+OpenAI Codex OAuth (subscription path):
+
+```bash
+openclaw onboard --auth-choice openai-codex
+# or
+openclaw models auth login --provider openai-codex
+```
+
+Anthropic setup-token flow:
+
+```bash
+claude setup-token
+openclaw onboard --auth-choice setup-token
+```
+
+Qwen OAuth flow:
+
+```bash
+openclaw plugins enable qwen-portal-auth
+openclaw models auth login --provider qwen-portal --set-default
+```
+
+These paths are useful when you want per-agent provider diversity without
+managing only raw API keys.
 
 ### Option B: per-agent model/provider in `openclaw.json`
 
@@ -132,6 +176,13 @@ Provider/API examples:
 openclaw config set env.ANTHROPIC_API_KEY '"${ANTHROPIC_API_KEY}"'
 openclaw config set env.OPENAI_API_KEY '"${OPENAI_API_KEY}"'
 openclaw config set env.OPENROUTER_API_KEY '"${OPENROUTER_API_KEY}"'
+```
+
+OAuth/token-auth model examples:
+
+```bash
+openclaw config set agents.list[0].model.primary '"openai-codex/gpt-5.3-codex"'
+openclaw config set agents.list[1].model.primary '"qwen-portal/coder-model"'
 ```
 
 Channel command behavior and routing are configured under `channels.*`, `bindings`,
@@ -295,4 +346,11 @@ For orchestrator fan-out, use sub-agents:
 - Configuration guide: https://docs.openclaw.ai/gateway/configuration
 - Configuration reference: https://docs.openclaw.ai/gateway/configuration-reference
 - Provider catalog: https://docs.openclaw.ai/providers
+- OpenAI provider (API + Codex OAuth): https://docs.openclaw.ai/providers/openai
+- Anthropic provider (API + setup-token): https://docs.openclaw.ai/providers/anthropic
+- Qwen provider (OAuth): https://docs.openclaw.ai/providers/qwen
 - Sub-agents: https://docs.openclaw.ai/tools/subagents
+- AGENTS template reference: https://docs.openclaw.ai/reference/templates/AGENTS
+- SOUL template reference: https://docs.openclaw.ai/reference/templates/SOUL
+- IDENTITY template reference: https://docs.openclaw.ai/reference/templates/IDENTITY
+- USER template reference: https://docs.openclaw.ai/reference/templates/USER
