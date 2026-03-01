@@ -251,8 +251,10 @@ Operational note: fastest setup is usually Telegram; WhatsApp needs QR pairing a
 
 ## Multi-Agent Setup Guides
 
-- **Main step-by-step:** `MULTI_AGENT_SETUP.md`
-- **Deployment guide:** `DEPLOYMENT_GUIDE.md`
+- **Initial setup: ** [OPENCLAW_SETUP.md](OPENCLAW_SETUP.md)
+- **Main step-by-step:** [MULTI_AGENT_SETUP.md](MULTI_AGENT_SETUP.md)
+- **Deployment guide:** [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)
+- **Explore Use Cases:** [USECASES.md](USECASES.md)
 - **Team pattern reference:** [Multi-Agent Specialized Team](https://github.com/hesamsheikh/awesome-openclaw-usecases/blob/main/usecases/multi-agent-team.md)
 - **Content pipeline reference:** [Multi-Agent Content Factory](https://github.com/hesamsheikh/awesome-openclaw-usecases/blob/main/usecases/content-factory.md)
 
