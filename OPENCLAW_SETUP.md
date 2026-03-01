@@ -1,102 +1,217 @@
 # ⚙️ OpenClaw Detailed Setup Guide
 
-Welcome to the definitive setup guide for **OpenClaw (The Orchestrator)**. Because OpenClaw serves as the monolithic brain of the Swarm, it carries the most extensive configuration options.
-
-This guide will walk you through bridging OpenClaw's logic to your preferred AI models (running Locally or via the Cloud) and wiring it up to your favorite messaging platforms.
+This guide is updated for the current OpenClaw docs structure (`docs.openclaw.ai/providers` and `docs.openclaw.ai/channels`) and focuses on practical setup for models + messaging.
 
 ---
 
-## 🧠 Part 1: Linking Your AI Models
+## 🧭 Step 0: Install and Onboard
 
-OpenClaw is model-agnostic. You can power it using commercial APIs or entirely offline using local hardware.
+Run on your OpenClaw host machine:
 
-### Option A: Cloud APIs (OpenAI / Anthropic / Gemini)
-The easiest way to get started is by plugging in an existing API key.
-
-1. Open your `agents/orchestrator.json` file.
-2. Locate the `modelProvider` block.
-3. Set your provider and insert the respective model name:
-```json
-"modelProvider": {
-  "provider": "openai", 
-  "model": "gpt-4-turbo" 
-}
-```
-*(Valid providers: `openai`, `anthropic`, `google`)*
-
-4. Store your secret key securely in the `.env` file at the root of your project:
-```env
-OPENAI_API_KEY="sk-proj-YOUR_KEY"
-# OR
-ANTHROPIC_API_KEY="sk-ant-YOUR_KEY"
-```
-
-### Option B: Local Models (Ollama)
-For high privacy and zero API costs, you can run OpenClaw entirely locally.
-
-1. Download and install [Ollama](https://ollama.com/).
-2. Pull your desired model via your terminal (e.g., Llama 3):
 ```bash
-ollama run llama3
+npm install -g openclaw@latest
+openclaw onboard --install-daemon
 ```
-3. Update your `agents/orchestrator.json` to point to your local localhost port:
-```json
-"modelProvider": {
-  "provider": "ollama", 
-  "model": "llama3",
-  "endpoint": "http://localhost:11434/api/generate"
-}
-```
+
+This sets up the Gateway service, workspace, and base auth flow.
 
 ---
 
-## 💬 Part 2: Connecting Messaging Platforms
+## 🧠 Step 1: Connect Your Model Provider
 
-OpenClaw supports 11+ channels. Here is how to link the most popular platforms so you can chat with your agent.
+OpenClaw supports many providers, but these five paths are the most common.
 
-### Option A: Discord Integration
-1. Go to the [Discord Developer Portal](https://discord.com/developers/applications).
-2. Create a "New Application" and navigate to the "Bot" tab.
-3. Reset and copy the **Bot Token**.
-4. Enable all 3 **Privileged Gateway Intents** (Presence, Server Members, Message Content).
-5. Generate an OAuth2 URL (Bot permission: Administrator) and invite it to your server.
-6. Paste the token in your `.env`:
-```env
-DISCORD_TOKEN="MTIzNDU2N..."
+### Option A: Anthropic (Claude)
+
+```bash
+openclaw onboard --anthropic-api-key "$ANTHROPIC_API_KEY"
 ```
 
-### Option B: Telegram Integration
-1. Open Telegram and search for `@BotFather`.
-2. Send the message `/newbot` and follow the prompts to name your agent.
-3. BotFather will reply with an **HTTP API Token**.
-4. Paste the token in your `.env`:
+Example default model:
+
+```json
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "anthropic/claude-opus-4-6"
+      }
+    }
+  }
+}
+```
+
+### Option B: OpenAI (API key)
+
+```bash
+openclaw onboard --auth-choice openai-api-key
+# or
+openclaw onboard --openai-api-key "$OPENAI_API_KEY"
+```
+
+Example default model:
+
+```json
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "openai/gpt-5.1-codex"
+      }
+    }
+  }
+}
+```
+
+### Option C: OpenAI Codex subscription transport
+
+```bash
+openclaw onboard --auth-choice openai-codex
+```
+
+Example model ref:
+
+```json
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "openai-codex/gpt-5.3-codex"
+      }
+    }
+  }
+}
+```
+
+### Option D: OpenRouter (multi-model gateway)
+
+```bash
+openclaw onboard --auth-choice apiKey --token-provider openrouter --token "$OPENROUTER_API_KEY"
+```
+
+Example model ref:
+
+```json
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "openrouter/anthropic/claude-sonnet-4-5"
+      }
+    }
+  }
+}
+```
+
+### Option E: Local Ollama (self-hosted)
+
+```bash
+ollama pull gpt-oss:20b
+```
+
+```env
+OLLAMA_API_KEY="ollama-local"
+```
+
+```json
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "ollama/gpt-oss:20b"
+      }
+    }
+  }
+}
+```
+
+Notes:
+
+- Current OpenClaw Ollama docs use native Ollama API (`/api/chat`) and auto-discovery when `OLLAMA_API_KEY` is set.
+- If you define `models.providers.ollama` explicitly, you must manage model entries manually.
+
+---
+
+## 💬 Step 2: Connect Messaging Apps
+
+Current docs list 20+ channels. Most teams start with one of these:
+
+- **Telegram**: fastest setup for many users.
+- **Discord**: strong for multi-channel team workflows.
+- **Slack**: good for workspace-native ops.
+- **WhatsApp**: strong personal usage; requires QR pairing.
+
+### Telegram quick setup
+
+1. Create bot via `@BotFather`.
+2. Put token in config/env.
+
 ```env
 TELEGRAM_BOT_TOKEN="123456789:ABCDEF..."
 ```
-5. In `agents/orchestrator.json`, change the `primaryChannel` to `"telegram"`.
 
-### Option C: Slack Integration
-1. Go to [api.slack.com](https://api.slack.com/apps) and click "Create New App".
-2. Under "Features > OAuth & Permissions", add the following Bot Token Scopes:
-   - `app_mentions:read`
-   - `chat:write`
-   - `channels:history`
-3. Click "Install to Workspace" at the top of the page.
-4. Copy the **Bot User OAuth Token** (starts with `xoxb-`).
-5. Paste the token in your `.env`:
+### Discord quick setup
+
+1. Create app + bot in Discord Developer Portal.
+2. Enable intents as required by your workflow.
+3. Add token in config/env.
+
 ```env
-SLACK_BOT_TOKEN="xoxb-123456..."
+DISCORD_BOT_TOKEN="your_discord_bot_token"
 ```
-6. In `agents/orchestrator.json`, change the `primaryChannel` to `"slack"`.
+
+### Slack quick setup
+
+1. Create Slack app and install to workspace.
+2. Add bot token scopes (`chat:write`, `app_mentions:read`, etc. per need).
+
+```env
+SLACK_BOT_TOKEN="xoxb-..."
+```
+
+### WhatsApp quick setup
+
+1. Start gateway/channel login flow.
+2. Scan QR on first pair.
+3. Keep host persistent to maintain session state.
+
+For all channel-specific fields and policy options, use official docs:
+
+- [Channels hub](https://docs.openclaw.ai/channels)
+- [Telegram channel setup](https://docs.openclaw.ai/channels/telegram)
+- [Discord channel setup](https://docs.openclaw.ai/channels/discord)
+- [Slack channel setup](https://docs.openclaw.ai/channels/slack)
+- [WhatsApp channel setup](https://docs.openclaw.ai/channels/whatsapp)
 
 ---
 
-## 🚀 Part 3: Booting Up
-
-With your models and messaging platforms configured, you are ready to launch!
+## ✅ Step 3: Validate the Setup
 
 ```bash
-npm run build
-npm run start
+openclaw models list
+openclaw channels status --probe
+openclaw gateway status
 ```
-Go to your chosen messaging app, tag the bot, and say "Hello!". Your OpenClaw orchestrator is now live. For scaling to multiple agents simultaneously, see the **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)**.
+
+Smoke-test one turn:
+
+```bash
+openclaw agent --agent main --message "Reply with: setup-check-ok"
+```
+
+---
+
+## 🔀 Step 4: Move to Multi-Agent
+
+After single-agent setup is healthy, follow [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md) to split workloads into dedicated agents with routing bindings and sub-agent orchestration.
+
+---
+
+## 📌 Source Links
+
+- Provider hub: [docs.openclaw.ai/providers](https://docs.openclaw.ai/providers)
+- OpenAI provider: [docs.openclaw.ai/providers/openai](https://docs.openclaw.ai/providers/openai)
+- Anthropic provider: [docs.openclaw.ai/providers/anthropic](https://docs.openclaw.ai/providers/anthropic)
+- OpenRouter provider: [docs.openclaw.ai/providers/openrouter](https://docs.openclaw.ai/providers/openrouter)
+- Ollama provider: [docs.openclaw.ai/providers/ollama](https://docs.openclaw.ai/providers/ollama)
+- Channels hub: [docs.openclaw.ai/channels](https://docs.openclaw.ai/channels)

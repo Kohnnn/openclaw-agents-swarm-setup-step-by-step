@@ -6,208 +6,312 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![OpenClaw](https://img.shields.io/badge/Powered%20By-OpenClaw-blue.svg)](https://github.com/SamurAIGPT/awesome-openclaw)
 
-**A next-generation, zero-code, hyper-scalable autonomous AI agent swarm orchestration ecosystem.**
-<br/>
-Leverage multi-modal LLM reasoning like Claude, GPT Codex, or Local Ollama, deterministic CI/CD pipelines, and asynchronous RAG memory layers to deploy an entire decentralized AI software agency—managed natively through enterprise chat platforms (Discord, Slack, Telegram, WhatsApp). <b>100% No-Code Friendly.</b>
+**A documentation-first playbook for deploying OpenClaw from single-agent chat to multi-agent production workflows.**
 
 </div>
 
 ---
 
 ## 📖 Table of Contents
-- [Features](#-features)
-- [Quick Start & Installation](#-quick-start--installation)
-- [OpenClaw Detailed Setup Guide (New!)](OPENCLAW_SETUP.md)
-- [Detailed Deployment Guide (New!)](DEPLOYMENT_GUIDE.md)
-- [Architecture: How It Works](#-architecture-how-it-works)
-    - [The Agent Progression](#the-agent-progression)
-- [Advanced CI/CD Swarm Layer (Highlight)](#-advanced-cicd-swarm-layer-highlight)
-- [The Claw Ecosystem](#-the-claw-ecosystem)
-- [Codex Comparison](#-codex-comparison)
-- [Discover Use Cases (New!)](USECASES.md)
-- [Credits & Acknowledgements](#-credits--acknowledgements)
+
+- [March 2026 Refresh](#-march-2026-refresh)
+- [What This Repo Is](#-what-this-repo-is)
+- [Quick Start (OpenClaw Host)](#-quick-start-openclaw-host)
+- [Architecture: Agent Progression](#-architecture-agent-progression)
+- [Models: Latest Provider Snapshot](#-models-latest-provider-snapshot)
+- [Messaging Apps: Latest Channel Snapshot](#-messaging-apps-latest-channel-snapshot)
+- [Multi-Agent Setup Guides](#multi-agent-setup-guides)
+- [Use Cases](#-use-cases)
+- [Brainstorm: How to Evolve This Repo](#-brainstorm-how-to-evolve-this-repo)
+- [Sources](#-sources)
+- [Credits](#-credits)
 
 ---
 
-## ✨ Features
-- **Multi-Platform Native:** Control your swarm from Discord, WhatsApp, Telegram, or Slack seamlessly.
-- **Micro to Monolith:** Scale from a single 5MB background process to a massive enterprise CI/CD powerhouse.
-- **Pluggable Architecture:** Effortlessly attach memory layers (SQLite, Postgres, Markdown) and external skills.
-- **Automated QA Loops:** Built-in reviewer agents that lint, typecheck, and validate code autonomously.
+## 🆕 March 2026 Refresh
+
+- **OpenClaw package/version:** `openclaw@2026.2.26` on npm.
+- **Provider docs updated:** current provider hub is `docs.openclaw.ai/providers`.
+- **Current model examples in docs:** `anthropic/claude-opus-4-6`, `openai/gpt-5.1-codex`, `openai-codex/gpt-5.3-codex`, `openrouter/anthropic/claude-sonnet-4-5`, `ollama/gpt-oss:20b`.
+- **Messaging docs now list 20+ channels**, including WhatsApp, Telegram, Discord, Slack, Signal, Teams, Matrix, Zalo, and more.
+- **Deployment guide rewritten for multi-agent** using current `openclaw agents`, bindings, and sub-agent patterns.
+- **Use cases updated** with newer community patterns from `awesome-openclaw-usecases` (including multi-agent specialized team and custom morning brief).
 
 ---
 
-## 🚀 Quick Start & Installation
+## ✅ What This Repo Is
 
-Getting your first Swarm online requires absolutely no coding experience. Follow these steps.
+This repository is **docs + images** for OpenClaw ecosystem deployment patterns:
 
-### Prerequisites
-1. **Node.js** (v18 or higher) installed on your system.
-2. A **Discord Base** (or Telegram/WhatsApp) with admin privileges to add bots.
+- [`OPENCLAW_SETUP.md`](OPENCLAW_SETUP.md): current model and messaging setup.
+- [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md): current multi-agent setup and routing.
+- [`USECASES.md`](USECASES.md): curated real-world use-case ideas.
 
-### Installation
-Clone this repository and install the initial dependencies:
+It is not a runnable app codebase by itself.
+
+---
+
+## 🚀 Quick Start (OpenClaw Host)
+
+Use these commands on the machine where OpenClaw runs:
+
 ```bash
-git clone https://github.com/your-username/AgentsSwarm.git
-cd AgentsSwarm
-npm install
+npm install -g openclaw@latest
+openclaw onboard --install-daemon
+openclaw dashboard
 ```
 
-### Configuration
-Create a `.env` file in the root directory and add your Bot Tokens and API Keys:
+Then continue with:
+
+1. [`OPENCLAW_SETUP.md`](OPENCLAW_SETUP.md) for models + channels.
+2. [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md) for multi-agent routing.
+3. [`USECASES.md`](USECASES.md) to pick a workflow blueprint.
+
+---
+
+## 🧠 Architecture: Agent Progression
+
+This flow tracks the progression highlighted in Misbah Syed's architecture thread.
+
+**1. The Atom (LLM + tool calls)**
+
+<p align="center">
+  <img src="images/misbah-step-atom.jpg" alt="Agent atom stage" width="760"/>
+</p>
+
+**2. Messaging adapters (Telegram/Discord/WhatsApp/etc.)**
+
+<p align="center">
+  <img src="images/misbah-step-messaging.jpg" alt="Messaging adapter stage" width="760"/>
+</p>
+
+**3. Agent loop (reason -> act -> observe -> repeat)**
+
+<p align="center">
+  <img src="images/misbah-step-loop.jpg" alt="Agent loop stage" width="760"/>
+</p>
+
+**4. Memory + skills layer**
+
+<p align="center">
+  <img src="images/misbah-step-memory-skills.jpg" alt="Memory and skills stage" width="760"/>
+</p>
+
+**5. Gateway-centered orchestration**
+
+<p align="center">
+  <img src="images/misbah-openclaw-architecture.jpg" alt="OpenClaw architecture" width="900"/>
+</p>
+
+**6. Real-world orchestrator outcomes (solo founder setup)**
+
+<p align="center">
+  <img src="images/elvissun-orchestration-flow.jpg" alt="Orchestration workflow" width="700"/>
+</p>
+
+**7. Claw ecosystem landscape snapshot**
+
+<p align="center">
+  <img src="images/misbah-claw-landscape.jpg" alt="Claw ecosystem landscape" width="760"/>
+</p>
+
+---
+
+## 🧩 Models: Latest Provider Snapshot
+
+OpenClaw now documents providers under `docs.openclaw.ai/providers`.
+
+### Common 2026 model refs
+
+- `anthropic/claude-opus-4-6`
+- `openai/gpt-5.1-codex`
+- `openai-codex/gpt-5.3-codex` (Codex subscription auth path)
+- `openrouter/anthropic/claude-sonnet-4-6`
+- `ollama/gpt-oss:120b`
+
+### Example default model config
+
+```json
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "anthropic/claude-opus-4-6",
+        "fallbacks": [
+          "openai/gpt-5.1-codex",
+          "openrouter/anthropic/claude-sonnet-4-5"
+        ]
+      }
+    }
+  }
+}
+```
+
+### Local model path (Ollama)
+
+```bash
+ollama pull gpt-oss:20b
+```
+
 ```env
-DISCORD_TOKEN_ORCHESTRATOR=your_token_here
-DISCORD_TOKEN_SUBAGENT_1=your_token_here
-OPENAI_API_KEY=your_key_here
-```
-Run the initialization script:
-```bash
-npm run swarm:start
+OLLAMA_API_KEY="ollama-local"
 ```
 
-> **🔥 Detailed Configuration & Launch**  
-> 1. To configure different AI Models (OpenAI, Ollama) and connect to Slack/Telegram, read the **[OpenClaw Setup Guide](OPENCLAW_SETUP.md)**.
-> 2. For instructions on running multiple agents simultaneously (Orchestrator + CI/CD Reviewers) via PM2 or multiple terminals, read the **[Step-by-Step Deployment Guide](DEPLOYMENT_GUIDE.md)**!
-
 ---
 
-## 🧠 Architecture: How It Works
+## 🏗️ The Claw Ecosystem (Comparison)
 
-Understanding your new Swarm begins with understanding the core anatomy of an individual Agent.
-
-### The Agent Progression
-
-**1. The Atom**  
-Every autonomous swarm begins here—an LLM capable of making decisions and executing actions through specific tools. It is the basic bridge between thought and capability.
-<p align="center">
-  <img src="images/step1theatom.jpg" alt="The Atom" width="600"/>
-</p>
-
-**2. Adding the Interface**  
-An agent needs to communicate where humans naturally gather. By attaching a messaging layer, we bring the agent directly to platforms like Discord, Telegram, or WhatsApp.
-<p align="center">
-  <img src="images/step2addingthemessaging.jpg" alt="Adding Messaging Interface" width="600"/>
-</p>
-
-**3. The Agent Loop**  
-The agent evaluates the given prompt, acts by calling a tool, observes the results, and loops this process repeatedly until it is satisfied the objective is fully achieved.
-<p align="center">
-  <img src="images/step3theagentloop.jpg" alt="The Agent Loop" width="600"/>
-</p>
-
-**4. Memory & Skills**  
-To be scalable, the agent needs persistent context. We provide it with a long-term Memory System and a Skill System (APIs, custom scripts, database access) to interact with complex external environments.
-<p align="center">
-  <img src="images/step4memorryandskill.jpg" alt="Memory and Skill system" width="600"/>
-</p>
-
----
-
-## 👑 Advanced CI/CD Swarm Layer (Highlight)
-
-When you are ready to move beyond simple chatbots, the system evolves into extreme automation. This is the **Swarm Architecture**—where OpenClaw becomes an autonomous enterprise factory that never sleeps.
-
-<p align="center">
-  <img src="images/agentsystem.jpg" alt="Agents System CI/CD Flow" width="800"/>
-</p>
-
-### The Workflow:
-1. **Input Ingestion:** The Orchestrator safely ingests real-time inputs natively (Sentry error logs, Support Tickets, user prompts, Meeting Notes).
-2. **Specialized Delegation:** The Orchestrator queries long-term Obsidian/DB memories, then creates and delegates tasks simultaneously to *Codex Agents*, *Claude Agents*, and *Gemini Agents*.
-3. **The Review Pipeline:** Sub-agent output is never blindly merged. It is piped directly into a GitHub CI/CD pipeline enforcing: `Lint -> Typecheck -> Unit Tests -> E2E -> AI Code Reviewers`.
-4. **Resolution:** If the pipeline fails, it loops back to the sub-agents. When it passes, the manager is pinged on Telegram with the finalized deployment.
-
----
-
-## 🏗️ The Claw Ecosystem
-
-Different tasks require different foundational constraints. The open-source ecosystem provides varied framework backends tailored to your deployment strategy.
+Different tasks require different foundational constraints. The open-source
+ecosystem provides varied framework backends tailored to your deployment
+strategy.
 
 <p align="center">
   <img src="images/comparediffrentclaw.jpg" alt="Compare Different Claws" width="700"/>
 </p>
 
-Depending on your need for speed, memory constraint, or language preference, you can dynamically swap the underlying agent architectures:
+Depending on your need for speed, memory constraint, or language preference,
+you can dynamically swap the underlying agent architectures:
 
 ### 1. NanoClaw
+
 - **Language:** TypeScript
-- **Optimal For:** Ultra-lightweight deployment, single channel messaging (e.g., WhatsApp).
-- **Core Specs:** ~500 lines of code, blazing fast startup, very low memory consumption.
-NanoClaw is the entry point for minimalistic deployments. It prioritizes a tiny footprint, making it perfect for simple, standalone bots that don't need persistent memory routing or major framework dependencies.
+- **Optimal For:** Ultra-lightweight deployment, single channel messaging.
+- **Core Specs:** ~500 lines of code, very low memory consumption.
+NanoClaw is the entry point for minimalistic deployments.
 <p align="center">
   <a href="https://github.com/qwibitai/nanoclaw"><img src="images/nanoclaw.jpg" alt="NanoClaw" width="500"/></a>
 </p>
 
 ### 2. Nanobot
+
 - **Language:** Python
 - **Optimal For:** Learning, research environments, and quick prototyping.
-- **Core Specs:** ~4,000 lines of code, ~0.8s startup, ~100MB memory, supports 9+ channels.
-Built to harness the power of Python's massive AI ecosystem, Nanobot uses simple Markdown & graph structures for its memory system. It's an excellent stepping stone for data scientists moving into automated agent creation.
+- **Core Specs:** ~4,000 lines of code, ~0.8s startup, ~100MB memory.
+Nanobot is a lean, hackable orchestration layer.
 <p align="center">
   <a href="https://github.com/HKUDS/nanobot"><img src="images/nanobot.jpg" alt="Nanobot" width="500"/></a>
 </p>
 
 ### 3. PicoClaw
+
 - **Language:** Go
 - **Optimal For:** Edge devices and IoT workloads.
-- **Core Specs:** ~41,000 lines of code, <1s startup, <10MB memory footprint, supports 6+ channels.
-PicoClaw takes advantage of Go's exceptional compilation speed and concurrency. It is heavily utilized in edge-computing scenarios where resources are drastically limited but the agent still requires robust logic loops.
+- **Core Specs:** ~41,000 lines of code, <1s startup, <10MB memory footprint.
 <p align="center">
   <a href="https://github.com/sipeed/picoclaw"><img src="images/picoclaw.jpg" alt="PicoClaw" width="500"/></a>
 </p>
 
 ### 4. IronClaw
+
 - **Language:** Rust
 - **Optimal For:** High security, zero-trust deployments.
-- **Core Specs:** ~128,000 lines, <10ms startup, ~7.8MB memory, WASM + Docker security models.
-IronClaw is built like a fortress. By executing all unverified operations within heavily isolated WebAssembly (WASM) boundaries, it protects the core system from malicious code—critical when letting an agent browse the web or run Python scrips.
+- **Core Specs:** ~128,000 lines, <10ms startup, ~7.8MB memory, WASM + Docker.
 <p align="center">
   <a href="https://github.com/nearai/ironclaw"><img src="images/ironclaw.jpg" alt="IronClaw" width="400"/></a>
   <img src="images/irronclaw2.jpg" alt="IronClaw Architecture" width="400"/>
 </p>
 
 ### 5. ZeroClaw
+
 - **Language:** Rust
 - **Optimal For:** Maximum flexibility and enterprise backend routing.
 - **Core Specs:** ~144,000 lines, <10ms startup, <5MB memory footprint.
-ZeroClaw utilizes incredibly efficient SQLite hybrid memory and trait-based plugins. It is generally heavily customized and implemented in high-performance backend pipelines running autonomous financial or data operations.
 <p align="center">
   <a href="https://github.com/zeroclaw-labs/zeroclaw"><img src="images/zeroclaw.jpg" alt="ZeroClaw" width="500"/></a>
 </p>
 
 ### 6. OpenClaw (The Monolith)
+
 - **Language:** TypeScript
-- **Optimal For:** Absolutely everything. Orchestrating other agents.
-- **Core Specs:** ~400,000+ lines, full App + Docker abstraction, SQL + Markdown hybrid memory, accesses over 5,700 skills.
-OpenClaw is the orchestrator. While it uses more memory (~1.5GB) and has a longer startup time, it serves as the ultimate brain. It connects to 11+ channels, maintains huge database contexts, and most importantly, can summon other agents as sub-tools.
+- **Optimal For:** Orchestrating other agents at scale.
+- **Core Specs:** ~400,000+ lines, SQL + Markdown hybrid memory, 11+ channels.
 <p align="center">
   <a href="https://github.com/openclaw/openclaw"><img src="images/openclaw.jpg" alt="OpenClaw" width="500"/></a>
 </p>
 
-> **Note on Architectures & Scaling:** If you plan on deploying multiple agents simultaneously across different chat platforms as described above, please refer to the detailed **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)** for execution parameters.
-
 ### Comprehensive Comparison Matrix
-Need deep metrics to choose your base? View the data below:
+
 <p align="center">
   <img src="images/detailtablecomparrisonallclaw.png" alt="Detailed Table Comparison" width="800"/>
 </p>
 
 ---
 
-## ⚔️ Codex Comparison
+## 💬 Messaging Apps: Latest Channel Snapshot
 
-How does the OpenClaw orchestration method hold up against strict coding specialists like Codex? Extremely well, particularly in open-ended infrastructure workflows.
-<p align="center">
-  <img src="images/OpenClaw and Codex comparison.png" alt="OpenClaw versus Codex" width="800"/>
-</p>
+From current OpenClaw channel docs, notable supported channels include:
+
+- **Core popular channels:** WhatsApp, Telegram, Discord, Slack, Signal.
+- **Also available:** IRC, Google Chat, Mattermost, Microsoft Teams, Feishu, LINE, Matrix, Nextcloud Talk, iMessage (legacy), BlueBubbles, Twitch, Zalo, Synology Chat, Nostr, Tlon.
+- **Plugin-installed channels** are explicitly marked in docs (for example Teams/Mattermost/LINE/Matrix/Twitch/Zalo variants).
+
+Operational note: fastest setup is usually Telegram; WhatsApp needs QR pairing and persistent session state.
 
 ---
 
-## � Credits & Acknowledgements
+## Multi-Agent Setup Guides
 
-The foundational architectures, framework progression methodologies, and visual models powering this repository were natively drawn from invaluable contributions by the community:
+- **Main step-by-step:** `MULTI_AGENT_SETUP.md`
+- **Deployment guide:** `DEPLOYMENT_GUIDE.md`
+- **Team pattern reference:** [Multi-Agent Specialized Team](https://github.com/hesamsheikh/awesome-openclaw-usecases/blob/main/usecases/multi-agent-team.md)
+- **Content pipeline reference:** [Multi-Agent Content Factory](https://github.com/hesamsheikh/awesome-openclaw-usecases/blob/main/usecases/content-factory.md)
 
-- **@MisbahSy** for the underlying operational layout and agent capability progressions.
-- **@elvissun** for the brilliant "Agent System Swarm" CI/CD integration architecture.
-- **@hesamsheikh** for pioneering seamless multi-platform workflow integrations.
-- **@123olp** and **@JXiaoLoong** for extended insights into infrastructure bounds and routing logic.
+---
+
+## 💡 Use Cases
+
+Explore updated patterns in [`USECASES.md`](USECASES.md), including:
+
+- Multi-Agent Specialized Team (strategy + dev + marketing + business)
+- Multi-Channel Personal Assistant
+- Family Calendar & Household Assistant
+- Custom Morning Brief
+- Semantic Memory Search
+- Event Guest Confirmation
+
+---
+
+## 🧪 Brainstorm: How to Evolve This Repo
+
+1. **Add a copy-paste config cookbook**
+   Create per-channel and per-agent `openclaw.json` templates (single-agent, founder-team, content-factory, support-desk).
+
+2. **Add a security-hardening guide**
+   Document minimal tool profiles, channel allowlists, and isolated sandbox recommendations before production deployment.
+
+3. **Add an operations runbook**
+   Cover `openclaw health`, `openclaw channels status --probe`, restart paths, and incident recovery checklists.
+
+4. **Add a benchmark matrix**
+   Track model quality/cost/latency by task class (coding, research, customer support).
+
+5. **Add visual architecture pages**
+   Turn the image set into dedicated explainers: base loop, multi-agent routing, and orchestrator + reviewer pipelines.
+
+6. **Add a “recipes from the community” section**
+   Continuously ingest standout workflows from curated GitHub lists and maintain date-stamped updates.
+
+---
+
+## 🔗 Sources
+
+- OpenClaw official docs: [docs.openclaw.ai](https://docs.openclaw.ai/)
+- Providers hub: [docs.openclaw.ai/providers](https://docs.openclaw.ai/providers)
+- Channels hub: [docs.openclaw.ai/channels](https://docs.openclaw.ai/channels)
+- Multi-agent concepts: [docs.openclaw.ai/concepts/multi-agent](https://docs.openclaw.ai/concepts/multi-agent)
+- Sub-agents docs: [docs.openclaw.ai/tools/subagents](https://docs.openclaw.ai/tools/subagents)
+- Awesome OpenClaw guide: [SamurAIGPT/awesome-openclaw](https://github.com/SamurAIGPT/awesome-openclaw)
+- Awesome OpenClaw use cases: [hesamsheikh/awesome-openclaw-usecases](https://github.com/hesamsheikh/awesome-openclaw-usecases)
+- Misbah Syed architecture thread: [x.com/MisbahSy/status/2025570052108665231](https://x.com/MisbahSy/status/2025570052108665231)
+- Elvis Sun orchestrator article: [x.com/elvissun/article/2025920521871716562](https://x.com/elvissun/article/2025920521871716562)
+- JXiaoLoong article: [x.com/JXiaoLoong/status/2024376180707905816](https://x.com/JXiaoLoong/status/2024376180707905816)
+- 123olp workflow prompt post: [x.com/123olp/status/2025704271921213731](https://x.com/123olp/status/2025704271921213731)
+
+---
+
+## 🙌 Credits
+
+- **@MisbahSy** for architecture progression visuals and framework tradeoff framing.
+- **@elvissun** for practical orchestration + CI/CD execution patterns.
+- **@hesamsheikh** for maintaining community use-case curation.
+- **@SamurAIGPT** for curated ecosystem resources.

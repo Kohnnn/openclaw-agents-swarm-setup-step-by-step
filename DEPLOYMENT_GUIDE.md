@@ -1,137 +1,250 @@
-# 🛠️ Swarm Deployment & Execution Guide
+# 🛠️ Multi-Agent OpenClaw Deployment Guide
 
-This guide will walk you through the technical steps required to deploy the "CI/CD Swarm Layer" highlighted in our main architecture. By the end of this guide, you will have an Orchestrator Agent, multiple Sub-Agents, and a Reviewer coordinating together.
-
----
-
-## 🛑 Step 1: Pre-Requisite Platform Setup
-
-Before touching the code, we need to create the spaces where our AI agents will "live" and communicate. 
-
-1. **Create a Discord Server** (or a Slack Workspace/Telegram Group).
-2. **Create the following dedicated channels**:
-   - `#📥-inbox` (Where you, the human, send tasks)
-   - `#🧠-brainstorming` (Where the Orchestrator plans)
-   - `#⚙️-execution-codex` (Where sub-agents do the work)
-   - `#⚖️-code-review` (Where the Reviewer agent verifies output)
-   - `#🚀-deployments` (Where successful builds are logged)
-3. **Generate Bot Tokens**: Go to the Discord Developer Portal and create 3 separate applications (Bots):
-   - `Swarm_Orchestrator`
-   - `Swarm_Coder_Sub`
-   - `Swarm_Reviewer`
-4. Invite all 3 bots to your server and ensure they have read/write access to the channels created above.
+This guide is now strictly multi-agent. For a full step-by-step checklist
+with copy-paste commands, use `MULTI_AGENT_SETUP.md` and then return here for
+ops patterns and validation.
 
 ---
 
-## ⚙️ Step 2: Global Configuration & Routing
+## 🎯 Outcome
 
-Regardless of which framework backend you use, you must map your tokens and channel IDs so the agents route correctly. This configuration is generally stored at the root of your Swarm.
+By the end, you will have:
 
-```env
-# AI Provider Keys
-OPENAI_API_KEY="sk-..."
-ANTHROPIC_API_KEY="sk-ant-..."
-
-# Bot Integration Tokens
-ORCHESTRATOR_DISCORD_TOKEN="MTEx..."
-CODER_DISCORD_TOKEN="MTIy..."
-REVIEWER_DISCORD_TOKEN="MTMz..."
-
-# Channel Routing
-INBOX_CHANNEL_ID="1234567890"
-BRAINSTORM_CHANNEL_ID="0987654321"
-EXECUTION_CHANNEL_ID="1122334455"
-REVIEW_CHANNEL_ID="5544332211"
-```
+- Multiple isolated agents (separate workspace + sessions + identity).
+- Deterministic channel routing via `bindings`.
+- Optional sub-agent parallelization for burst workloads.
+- A practical ops loop for health checks and CI-style quality gates.
 
 ---
 
-## 🚀 Step 3: Framework-Specific Deployment
+## ✅ Step 1: Base Requirements
 
-Because the OpenClaw ecosystem offers highly specialized backends (ranging from edge-IoT footprints to high-security containers), your launch command depends on your chosen backend. Follow the track that applies to your framework.
+On the machine running OpenClaw:
 
-### Track 1: OpenClaw (The Monolithic Orchestrator)
-The default, robust TypeScript orchestrator. Best for massive SQL memories and high-tool-count environments.
-
-1. Ensure Node.js 18+ is installed.
-2. Clone the OpenClaw mono-repo and install dependencies: `npm install`
-3. Since we are running multiple heavy instances, use PM2:
 ```bash
-npm install -g pm2
-pm2 start ecosystem.config.js
-```
-*This spins up `openclaw-orchestrator`, `openclaw-coder`, and `openclaw-reviewer` automatically.*
-
-### Track 2: ZeroClaw
-The incredibly fast, trait-based Rust backend. Perfect for high-performance financial or data backends.
-
-1. Ensure Rust and Cargo are installed (`rustup`).
-2. Build the releases natively:
-```bash
-cargo build --release
-```
-3. Run the binaries explicitly defining their roles:
-```bash
-./target/release/zeroclaw --role orchestrator &
-./target/release/zeroclaw --role coder &
-./target/release/zeroclaw --role reviewer &
+npm install -g openclaw@latest
+openclaw onboard --install-daemon
+openclaw gateway status
 ```
 
-### Track 3: IronClaw
-The high-security WASM + Docker container fortress. Mandatory if your agents will execute untrusted code.
+Recommended platform notes from docs:
 
-1. Ensure Docker Desktop is running.
-2. IronClaw requires strict namespace definitions to prevent cross-contamination. Use Docker Compose to spin up isolated WASM networks:
-```bash
-docker-compose up -d --build orchestrator coder reviewer
-```
-*All agent communication will occur strictly through the external messaging API layer (Discord/Telegram), preventing internal container breakouts.*
-
-### Track 4: PicoClaw
-The ultra-efficient Go framework prioritizing sub-second startup times for edge utility workloads.
-
-1. Ensure Go 1.21+ is installed.
-2. Compile and run:
-```bash
-go build -o picoclaw main.go
-./picoclaw run -c orchestrator.yaml &
-./picoclaw run -c coder.yaml &
-./picoclaw run -c reviewer.yaml &
-```
-
-### Track 5: Nanobot
-The Python-centric data scientist friendly framework running on basic Markdown memory graphs.
-
-1. Ensure Python 3.10+ and `poetry` (or `pip`) are installed.
-2. Install dependencies: `poetry install`
-3. Launch via the built-in python manager:
-```bash
-poetry run python -m nanobot.swarm orchestrator coder reviewer
-```
-
-### Track 6: NanoClaw
-The absolutely minimal, ~500 line TypeScript bot. Ideal when running directly on a constrained environment like a Raspberry Pi targeting WhatsApp.
-
-1. Install Bun (or Node) for massive speed improvements on constrained systems: `npm install -g bun`
-2. Run directly against the single-file architectures:
-```bash
-bun start_orchestrator.ts &
-bun start_coder.ts &
-bun start_reviewer.ts &
-```
+- Node 22+ runtime.
+- Bun is not recommended for Gateway runtime.
+- Windows users are best on WSL2 for host setup.
 
 ---
 
-## 🧪 Step 4: Triggering the Swarm
+## 🧱 Step 2: Create Isolated Agents
 
-Head over to your Discord server and type in the `#📥-inbox` channel:
+Create one agent per domain persona.
 
-> **You:** "@Swarm_Orchestrator I need a new Python script that pulls the daily weather for Tokyo and saves it to a local CSV. Please build it."
+```bash
+openclaw agents add strategy --workspace ~/.openclaw/workspace-strategy
+openclaw agents add coding --workspace ~/.openclaw/workspace-coding
+openclaw agents add support --workspace ~/.openclaw/workspace-support
+```
 
-Jump between your Discord channels and watch the magic happen automatically:
-1. **Orchestrator** will reply acknowledging the receipt, and move to `#🧠-brainstorming` to post the architecture plan.
-2. **Coder** will read the plan in `#⚙️-execution-codex` and write the code.
-3. **Reviewer** will jump into `#⚖️-code-review`, run validations against the code, and finalize the deployment!
+Inspect:
+
+```bash
+openclaw agents list --bindings
+```
+
+Each agent gets its own workspace and session store, so context does not bleed between roles unless you explicitly share it.
 
 ---
-*Ready to integrate unique use cases into your new Swarm? Check out the [Community Use Cases](USECASES.md).*
+
+## 🔌 Step 3: Connect Channel Accounts and Bindings
+
+### A) Log in channel accounts
+
+Examples:
+
+```bash
+openclaw channels login --channel whatsapp --account personal
+openclaw channels login --channel whatsapp --account biz
+```
+
+(For Telegram/Discord/Slack, set tokens in channel config as documented on each channel page.)
+
+### B) Bind inbound traffic to agent IDs
+
+```bash
+openclaw agents bind --agent strategy --bind telegram:founder
+openclaw agents bind --agent coding --bind discord:engineering
+openclaw agents bind --agent support --bind whatsapp:biz
+```
+
+Check routing table:
+
+```bash
+openclaw agents bindings --json
+```
+
+Routing note:
+
+- `--bind channel` maps default account only.
+- `--bind channel:accountId` maps a specific account.
+
+---
+
+## 🧭 Step 4: Add Deterministic Multi-Agent Routing
+
+Edit `~/.openclaw/openclaw.json` with explicit routing + session isolation.
+
+```json
+{
+  "session": {
+    "dmScope": "per-account-channel-peer"
+  },
+  "bindings": [
+    {
+      "agentId": "strategy",
+      "match": {
+        "channel": "telegram",
+        "accountId": "founder"
+      }
+    },
+    {
+      "agentId": "coding",
+      "match": {
+        "channel": "discord",
+        "accountId": "engineering"
+      }
+    },
+    {
+      "agentId": "support",
+      "match": {
+        "channel": "whatsapp",
+        "accountId": "biz"
+      }
+    },
+    {
+      "agentId": "strategy",
+      "match": {
+        "channel": "whatsapp",
+        "peer": {
+          "kind": "direct",
+          "id": "+15551234567"
+        }
+      }
+    }
+  ]
+}
+```
+
+Apply with hot reload (or restart when needed):
+
+```bash
+openclaw gateway restart
+openclaw agents list --bindings
+openclaw channels status --probe
+```
+
+<p align="center">
+  <img src="images/elvissun-context-split.png" alt="Context split across orchestrator and coding agents" width="520"/>
+</p>
+
+---
+
+## ⚡ Step 5: Parallelize with Sub-Agents
+
+For burst tasks, use sub-agents from the orchestrator agent.
+
+### Slash command flow
+
+```text
+/subagents spawn coding Implement API auth middleware --model openai/gpt-5.1-codex --thinking high
+/subagents list
+/subagents log #1 200 tools
+/subagents kill all
+```
+
+### Recommended sub-agent defaults
+
+```json
+{
+  "agents": {
+    "defaults": {
+      "subagents": {
+        "maxSpawnDepth": 2,
+        "maxChildrenPerAgent": 5,
+        "runTimeoutSeconds": 900,
+        "archiveAfterMinutes": 60
+      }
+    }
+  }
+}
+```
+
+This enables a practical orchestrator pattern: main agent -> orchestrator sub-agent -> worker sub-agents.
+
+---
+
+## 🔗 Step 5.1: GitHub Multi-Agent Patterns
+
+These are real-world multi-agent setups documented by the community:
+
+- Slack multi-bot, one agent per Slack app/bot (true per-agent identity).
+- Telegram second agent with separate `accountId` and routing bindings.
+
+Use these as templates to validate your config and routing logic.
+
+---
+
+## 🧪 Step 6: Production Validation and Ops
+
+Run these checks regularly:
+
+```bash
+openclaw gateway status
+openclaw channels status --probe
+openclaw health --deep
+```
+
+Minimal delivery test per agent:
+
+```bash
+openclaw agent --agent strategy --message "status check"
+openclaw agent --agent coding --message "status check"
+openclaw agent --agent support --message "status check"
+```
+
+Operational pattern that works well:
+
+1. Orchestrator receives request and scopes work.
+2. Coding/support sub-agents execute in parallel.
+3. CI + review gates run (`lint`, `typecheck`, tests, AI review).
+4. Notify human in Telegram/Slack only after all gates pass.
+
+<p align="center">
+  <img src="images/elvissun-orchestration-flow.jpg" alt="Orchestrated coding workflow" width="700"/>
+</p>
+
+---
+
+## 🧠 Step 7: Recommended Team Pattern
+
+For solo founder teams, mirror this role split:
+
+- **Strategy agent:** planning, prioritization, daily recap.
+- **Coding agent:** implementation and bugfix.
+- **Marketing/research agent:** trends, content, competitor scan.
+- **Support agent:** customer and operations workflows.
+
+Start with different model defaults per role, then tune by cost/latency.
+
+---
+
+## 🔗 GitHub Guides Used
+
+- Official multi-agent concept doc: [docs.openclaw.ai/concepts/multi-agent](https://docs.openclaw.ai/concepts/multi-agent)
+- Official sub-agents doc: [docs.openclaw.ai/tools/subagents](https://docs.openclaw.ai/tools/subagents)
+- Official agents CLI doc: [docs.openclaw.ai/cli/agents](https://docs.openclaw.ai/cli/agents)
+- Community multi-agent team guide: [awesome-openclaw-usecases/multi-agent-team](https://github.com/hesamsheikh/awesome-openclaw-usecases/blob/main/usecases/multi-agent-team.md)
+- Community content-factory guide: [awesome-openclaw-usecases/content-factory](https://github.com/hesamsheikh/awesome-openclaw-usecases/blob/main/usecases/content-factory.md)
+
+---
+
+Ready for practical workflows? Continue with [USECASES.md](USECASES.md).

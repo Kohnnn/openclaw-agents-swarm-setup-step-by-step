@@ -1,49 +1,103 @@
 # 💡 AgentsSwarm Use Cases
 
-The OpenClaw ecosystem is extraordinarily versatile. Below is a curated list of incredible, community-driven use cases built upon the architecture defined in the main `README.md`. 
+This page is refreshed from the latest community collections and highlights practical OpenClaw workflows you can copy.
 
-These real-world applications show the power of automated bots acting on your behalf to save time and boost productivity. 
-
-*Reference: Inspired by the [awesome-openclaw-usecases](https://github.com/hesamsheikh/awesome-openclaw-usecases) community collection.*
+Primary source: [awesome-openclaw-usecases](https://github.com/hesamsheikh/awesome-openclaw-usecases)
 
 ---
 
-## 📱 Social Media Automation
-- **Daily Reddit Digest:** Agents compile and summarize the top posts from your favorite subreddits.
-- **Daily YouTube Digest:** Automatically transcribe, summarize, and format key takeaways from specific YouTube channels.
-- **X Account Analysis:** Track sentiment, growth patterns, and engagement metrics autonomously.
-- **Multi-Source Tech News Digest:** Crawl multiple tech blogs and newsletter sources to deliver one clean morning brief.
+## 🚀 New and Notable (2026)
 
-## 🎨 Creative & Building
-- **Goal-Driven Autonomous Tasks (Overnight Mini App Builder):** Tell your swarm what simple tool or app you want before bed, and wake up to a V1 codebase.
-- **YouTube Content Pipeline:** Agents that research a topic, draft a script, generate a shot-list, and sequence editing tasks.
-- **Multi-Agent Content Factory:** Orchestrate a swarm where one agent writes an article, another translates it, and a third generates SEO metadata.
-- **Autonomous Game Dev Pipeline:** Streamline asset generation, basic scripting, and level design parameters.
-- **Podcast Production Pipeline:** Automate the extraction of clips, generating show notes, and drafting promotional tweets from a single audio file.
-
-## 🛠️ Infrastructure & DevOps
-- **n8n Workflow Orchestration:** Connect OpenClaw to n8n to orchestrate infinite numbers of API triggers and webhook responses.
-- **Self-Healing Home Server:** A monitoring agent that detects when Docker containers crash and autonomously restarts them or clears disk space.
-
-## 📈 Productivity & Organization
-- **Autonomous Project Management:** Manage GitHub issues and Jira tickets automatically based on developer commits and PRs.
-- **Multi-Channel AI Customer Service:** A unified agent that reads from Discord, Slack, and Zendesk to provide instant, context-aware support.
-- **Inbox De-clutter:** An agent that silently categorizes, archives, or drafts replies to your emails.
-- **Personal CRM:** Automatically track when you last spoke to key contacts and draft context-aware follow-up reminders.
-- **Dynamic Dashboard & Second Brain:** Connect your agent to Obsidian or Notion to autonomously organize scattered notes into formatted knowledge bases.
-- **Automated Meeting Notes & Action Items:** Agents that join voice calls, transcribe the audio, and assign tasks to team members automatically.
-- **Habit Tracker & Accountability Coach:** A proactive agent that messages you on Telegram daily to check on your goals and scolds you (mildly) if you fail.
-
-## 🎓 Research & Learning
-- **AI Earnings Tracker:** Scrape and summarize quarterly earnings calls for specific stock portfolios.
-- **Personal Knowledge Base (RAG):** Load your entire PDF library into the Swarm's Postgres memory to ask complex cross-document questions.
-- **Market Research & Product Factory:** Agents that monitor competitor pricing and feature updates to generate weekly intelligence reports.
-- **Pre-Build Idea Validator:** Input a business idea and have the Swarm research search volume, competitor saturation, and generate a feasibility score.
-
-## 💰 Finance & Trading
-- **Polymarket Autopilot:** Agents that track news sentiment and execute small, logic-based predictions automagically.
+- **Multi-Agent Specialized Team:** strategy + dev + marketing + business agents coordinated from one chat.
+- **Custom Morning Brief:** fully personalized daily brief with tasks, news, and recommended actions.
+- **Family Calendar & Household Assistant:** combines schedules, reminders, and home inventory workflows.
+- **Semantic Memory Search:** vector-powered retrieval on markdown memory.
+- **Event Guest Confirmation:** automated voice-call attendee confirmation workflows.
 
 ---
 
-> **Ready to build your own use case?**  
-> Head back to the main [README.md](README.md) to set up your Swarm architecture!
+## 📱 Social Media
+
+- **Daily Reddit Digest:** summarize selected subreddits with your preference profile.
+- **Daily YouTube Digest:** track creators and get daily summaries.
+- **X Account Analysis:** audit account performance and patterns.
+- **Multi-Source Tech News Digest:** aggregate high-signal stories from RSS/X/GitHub/web.
+
+---
+
+## 🎨 Creative and Building
+
+- **Goal-Driven Autonomous Tasks (Overnight Mini App Builder):** convert goal dumps into scheduled execution.
+- **YouTube Content Pipeline:** research -> script -> content planning.
+- **Multi-Agent Content Factory:** research, writing, and thumbnail agents working in dedicated channels.
+- **Autonomous Game Dev Pipeline:** backlog-driven build loop with bug-first policy.
+- **Podcast Production Pipeline:** guest research, outlines, show notes, and social promo assets.
+
+---
+
+## 🛠️ Infrastructure and DevOps
+
+- **n8n Workflow Orchestration:** delegate integrations through webhook-based flows.
+- **Self-Healing Home Server:** monitor, restart, and maintain services over SSH.
+
+---
+
+## 📈 Productivity and Operations
+
+- **Autonomous Project Management:** state-driven coordination across repositories and issue trackers.
+- **Multi-Channel AI Customer Service:** unify support channels in one agent workflow.
+- **Phone-Based Personal Assistant:** interact with your assistant by call or SMS.
+- **Inbox De-clutter:** summarize newsletter/email overload into actionable digests.
+- **Personal CRM:** extract contact activity and draft follow-up prompts.
+- **Health and Symptom Tracker:** log routines and symptoms with proactive reminders.
+- **Multi-Channel Personal Assistant:** route tasks across Telegram, Slack, email, and calendar.
+- **Project State Management:** event-driven project state capture beyond static boards.
+- **Dynamic Dashboard:** live dashboard from APIs, databases, and social channels.
+- **Todoist Task Manager:** sync execution logs and task outcomes to Todoist.
+- **Family Calendar and Household Assistant:** shared family schedule + operations assistant.
+- **Multi-Agent Specialized Team:** role-based team for founder workflows.
+- **Custom Morning Brief:** automated personalized daily briefing.
+- **Automated Meeting Notes and Action Items:** transcript -> summary -> assigned tasks.
+- **Habit Tracker and Accountability Coach:** daily nudges and adaptive accountability messages.
+- **Second Brain:** memory capture + retrieval through chat and dashboard.
+- **Event Guest Confirmation:** call guest list, track confirmations, and summarize outcomes.
+
+---
+
+## 🎓 Research and Learning
+
+- **AI Earnings Tracker:** monitor earnings events and summarize findings.
+- **Personal Knowledge Base (RAG):** ingest URLs/articles/docs and query across them.
+- **Market Research and Product Factory:** mine pain points and generate build opportunities.
+- **Pre-Build Idea Validator:** evaluate competition and market saturation before coding.
+- **Semantic Memory Search:** hybrid retrieval for long-term memory files.
+
+---
+
+## 💰 Finance and Trading
+
+- **Polymarket Autopilot:** paper-trading style automation and performance reporting.
+
+Use strict safety controls and small limits for any finance-related automation.
+
+---
+
+## 🧭 How to Pick Your First Use Case
+
+1. Start with one channel (Telegram or Discord).
+2. Start with one high-frequency pain point (daily brief, inbox, or support).
+3. Add one automation loop (cron or webhook).
+4. Add multi-agent roles only after single-agent flow is stable.
+
+---
+
+## 🔗 References
+
+- Main collection: [hesamsheikh/awesome-openclaw-usecases](https://github.com/hesamsheikh/awesome-openclaw-usecases)
+- Companion ecosystem list: [SamurAIGPT/awesome-openclaw](https://github.com/SamurAIGPT/awesome-openclaw)
+- Multi-agent team example: [usecases/multi-agent-team.md](https://github.com/hesamsheikh/awesome-openclaw-usecases/blob/main/usecases/multi-agent-team.md)
+- Content-factory example: [usecases/content-factory.md](https://github.com/hesamsheikh/awesome-openclaw-usecases/blob/main/usecases/content-factory.md)
+
+---
+
+Ready to deploy these patterns? Go to [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md).
