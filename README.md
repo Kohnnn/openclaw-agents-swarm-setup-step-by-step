@@ -45,6 +45,8 @@ This repository is **docs + images** for OpenClaw ecosystem deployment patterns:
 
 - [`OPENCLAW_SETUP.md`](OPENCLAW_SETUP.md): current model and messaging setup.
 - [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md): current multi-agent setup and routing.
+- [`MULTI_AGENT_SETUP.md`](MULTI_AGENT_SETUP.md): initial multi-agent setup.
+
 - [`USECASES.md`](USECASES.md): curated real-world use-case ideas.
 
 It is not a runnable app codebase by itself.
@@ -65,7 +67,8 @@ Then continue with:
 
 1. [`OPENCLAW_SETUP.md`](OPENCLAW_SETUP.md) for models + channels.
 2. [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md) for multi-agent routing.
-3. [`USECASES.md`](USECASES.md) to pick a workflow blueprint.
+3. [`MULTI_AGENT_SETUP.md`](MULTI_AGENT_SETUP.md) for multi-agent setup.
+4. [`USECASES.md`](USECASES.md) to pick a workflow blueprint.
 
 ---
 
@@ -251,7 +254,7 @@ Operational note: fastest setup is usually Telegram; WhatsApp needs QR pairing a
 
 ## Multi-Agent Setup Guides
 
-- **Initial setup: ** [OPENCLAW_SETUP.md](OPENCLAW_SETUP.md)
+- **Initial setup:** [OPENCLAW_SETUP.md](OPENCLAW_SETUP.md)
 - **Main step-by-step:** [MULTI_AGENT_SETUP.md](MULTI_AGENT_SETUP.md)
 - **Deployment guide:** [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)
 - **Explore Use Cases:** [USECASES.md](USECASES.md)
