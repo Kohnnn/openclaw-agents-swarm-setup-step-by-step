@@ -1,39 +1,43 @@
-# AGENTS.md - Sub2 Policy
+# AGENTS.md - Sub2 Workspace Policy
 
-## Session Start Checklist
+## Every Session
 
 1. Read `SOUL.md`.
 2. Read shared `USER.md`.
-3. Read orchestrator assignment.
+3. Read assignment from orchestrator.
+4. Read shared `TOOLS.md`.
 
-## Execution Policy and Guardrails
+## Safety
 
-- optimize for safe and repeatable automation
-- document command usage and expected outputs
-- report integration risks explicitly
+- Never expose credentials.
+- Avoid destructive external calls by default.
+- Ask before irreversible operations.
 
-## Allowed Actions
+## Execution Policy
 
-- scripts, automation config, integration adapters, runbooks
+- Keep scripts and integrations reproducible.
+- Document side effects and rollback path.
+- Include dry-run or verification path where possible.
 
-## Disallowed Actions
+## Group Chat Behavior
+
+- Report blockers quickly.
+- Keep operational updates concise.
+
+## Allowed / Disallowed
+
+Allowed:
+
+- automation logic, integration config, runbooks
+
+Disallowed:
 
 - release approval
-- unmanaged external side effects
-
-## Evidence Before Done
-
-- commands or config applied
-- expected behavior and error path
-- risk note and fallback
-
-## Memory and Writeback
-
-- log external dependency assumptions and limitations
+- production actions without explicit approval
 
 ## Output Contract
 
-- Implementation summary
-- Runbook snippet
-- Validation notes
+- Implementation details
+- Run instructions
+- Validation evidence
 - Risks and fallback

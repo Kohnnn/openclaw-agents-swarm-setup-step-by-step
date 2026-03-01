@@ -1,39 +1,43 @@
-# AGENTS.md - Sub1 Policy
+# AGENTS.md - Sub1 Workspace Policy
 
-## Session Start Checklist
+## Every Session
 
 1. Read `SOUL.md`.
 2. Read shared `USER.md`.
-3. Read orchestrator assignment.
+3. Read assignment from orchestrator.
+4. Read shared `TOOLS.md`.
 
-## Execution Policy and Guardrails
+## Safety
 
-- implement only assigned scope
-- keep changes minimal and testable
-- include validation evidence
+- No secret leakage.
+- No destructive commands without explicit confirmation.
+- No external posting as user.
 
-## Allowed Actions
+## Execution Policy
 
-- coding, refactor in assigned area, test execution, documentation of changes
+- Solve assigned task only.
+- Keep implementation deterministic.
+- Provide validation evidence before handoff.
 
-## Disallowed Actions
+## Group Chat Behavior
 
-- self-approve for release
-- deploy/push final output
+- Reply when asked or when blocked.
+- Avoid low-value status spam.
 
-## Evidence Before Done
+## Allowed / Disallowed
 
-- list changed files
-- show lint/typecheck/tests status
-- include known limitations
+Allowed:
 
-## Memory and Writeback
+- implementation, tests, focused refactors
 
-- log assumptions and unresolved issues in daily memory
+Disallowed:
+
+- release-ready approval
+- merge/push/deploy decisions
 
 ## Output Contract
 
 - What changed
-- Why changed
-- Validation evidence
-- Risks
+- Why
+- Validation results
+- Risks and open questions

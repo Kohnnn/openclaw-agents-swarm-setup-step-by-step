@@ -79,6 +79,7 @@ cp templates/SOUL.md ~/.openclaw/workspace-coding/SOUL.md
 cp templates/AGENTS.md ~/.openclaw/workspace-coding/AGENTS.md
 cp templates/IDENTITY.md ~/.openclaw/workspace-coding/IDENTITY.md
 cp templates/USER.md ~/.openclaw/workspace-coding/USER.md
+cp templates/TOOLS.md ~/.openclaw/workspace-coding/TOOLS.md
 ```
 
 Then replace all `<...>` placeholders with task/domain-specific values.
@@ -112,6 +113,7 @@ Recommended files per agent workspace:
 - `AGENTS.md`: execution policy and guardrails.
 - `IDENTITY.md`: public persona metadata for channel-facing behavior.
 - `USER.md`: local team preferences.
+- `TOOLS.md`: local setup notes and tool behavior hints.
 
 ---
 
@@ -135,7 +137,7 @@ openclaw agents add sub3 --workspace ~/.openclaw/workspace-sub3
 openclaw agents add reviewer --workspace ~/.openclaw/workspace-reviewer
 ```
 
-### Inject shared `USER.md` into all workspaces
+### Inject shared `USER.md` and `TOOLS.md` into all workspaces
 
 ```bash
 cp templates/samples/shared/USER.md ~/.openclaw/workspace-orchestrator/USER.md
@@ -143,30 +145,41 @@ cp templates/samples/shared/USER.md ~/.openclaw/workspace-sub1/USER.md
 cp templates/samples/shared/USER.md ~/.openclaw/workspace-sub2/USER.md
 cp templates/samples/shared/USER.md ~/.openclaw/workspace-sub3/USER.md
 cp templates/samples/shared/USER.md ~/.openclaw/workspace-reviewer/USER.md
+
+cp templates/samples/shared/TOOLS.md ~/.openclaw/workspace-orchestrator/TOOLS.shared.md
+cp templates/samples/shared/TOOLS.md ~/.openclaw/workspace-sub1/TOOLS.shared.md
+cp templates/samples/shared/TOOLS.md ~/.openclaw/workspace-sub2/TOOLS.shared.md
+cp templates/samples/shared/TOOLS.md ~/.openclaw/workspace-sub3/TOOLS.shared.md
+cp templates/samples/shared/TOOLS.md ~/.openclaw/workspace-reviewer/TOOLS.shared.md
 ```
 
-### Inject role files (`SOUL.md`, `AGENTS.md`, `IDENTITY.md`)
+### Inject role files (`SOUL.md`, `AGENTS.md`, `IDENTITY.md`, `TOOLS.md`)
 
 ```bash
 cp templates/samples/orchestrator/SOUL.md ~/.openclaw/workspace-orchestrator/SOUL.md
 cp templates/samples/orchestrator/AGENTS.md ~/.openclaw/workspace-orchestrator/AGENTS.md
 cp templates/samples/orchestrator/IDENTITY.md ~/.openclaw/workspace-orchestrator/IDENTITY.md
+cp templates/samples/orchestrator/TOOLS.md ~/.openclaw/workspace-orchestrator/TOOLS.md
 
 cp templates/samples/sub1/SOUL.md ~/.openclaw/workspace-sub1/SOUL.md
 cp templates/samples/sub1/AGENTS.md ~/.openclaw/workspace-sub1/AGENTS.md
 cp templates/samples/sub1/IDENTITY.md ~/.openclaw/workspace-sub1/IDENTITY.md
+cp templates/samples/sub1/TOOLS.md ~/.openclaw/workspace-sub1/TOOLS.md
 
 cp templates/samples/sub2/SOUL.md ~/.openclaw/workspace-sub2/SOUL.md
 cp templates/samples/sub2/AGENTS.md ~/.openclaw/workspace-sub2/AGENTS.md
 cp templates/samples/sub2/IDENTITY.md ~/.openclaw/workspace-sub2/IDENTITY.md
+cp templates/samples/sub2/TOOLS.md ~/.openclaw/workspace-sub2/TOOLS.md
 
 cp templates/samples/sub3/SOUL.md ~/.openclaw/workspace-sub3/SOUL.md
 cp templates/samples/sub3/AGENTS.md ~/.openclaw/workspace-sub3/AGENTS.md
 cp templates/samples/sub3/IDENTITY.md ~/.openclaw/workspace-sub3/IDENTITY.md
+cp templates/samples/sub3/TOOLS.md ~/.openclaw/workspace-sub3/TOOLS.md
 
 cp templates/samples/reviewer/SOUL.md ~/.openclaw/workspace-reviewer/SOUL.md
 cp templates/samples/reviewer/AGENTS.md ~/.openclaw/workspace-reviewer/AGENTS.md
 cp templates/samples/reviewer/IDENTITY.md ~/.openclaw/workspace-reviewer/IDENTITY.md
+cp templates/samples/reviewer/TOOLS.md ~/.openclaw/workspace-reviewer/TOOLS.md
 ```
 
 ### Import identity for each agent

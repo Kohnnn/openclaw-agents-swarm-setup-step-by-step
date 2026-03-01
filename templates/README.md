@@ -6,11 +6,13 @@ This folder contains starter templates for per-agent injection:
 - `AGENTS.md`
 - `IDENTITY.md`
 - `USER.md`
+- `TOOLS.md`
 
 Use-case packs:
 
 - `samples/` contains a complete 5-agent swarm template set for Discord:
-  `orchestrator`, `sub1`, `sub2`, `sub3`, `reviewer`, plus shared `USER.md`.
+  `orchestrator`, `sub1`, `sub2`, `sub3`, `reviewer`, plus shared `USER.md`
+  and shared `TOOLS.md`.
 
 ## Quick Inject Workflow
 
@@ -28,6 +30,7 @@ cp templates/SOUL.md ~/.openclaw/workspace-coding/SOUL.md
 cp templates/AGENTS.md ~/.openclaw/workspace-coding/AGENTS.md
 cp templates/IDENTITY.md ~/.openclaw/workspace-coding/IDENTITY.md
 cp templates/USER.md ~/.openclaw/workspace-coding/USER.md
+cp templates/TOOLS.md ~/.openclaw/workspace-coding/TOOLS.md
 ```
 
 3. Replace placeholders (`<...>`) with project-specific values.

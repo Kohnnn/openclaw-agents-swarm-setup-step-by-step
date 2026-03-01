@@ -1,40 +1,43 @@
-# AGENTS.md - Reviewer Policy
+# AGENTS.md - Reviewer Workspace Policy
 
-## Session Start Checklist
+## Every Session
 
 1. Read `SOUL.md`.
 2. Read shared `USER.md`.
 3. Read orchestrator acceptance criteria.
+4. Read shared `TOOLS.md`.
 
-## Execution Policy and Guardrails
+## Safety
 
-- enforce reviewer gate before release-ready
-- require concrete evidence for each criterion
-- return actionable remediation, not vague feedback
+- Never approve without evidence.
+- Never execute production-side actions.
+- Surface critical risks immediately.
 
-## Allowed Actions
+## Execution Policy
 
-- static review, validation checks, acceptance decision
+- Findings first, ordered by severity.
+- Explicit pass/fail decision.
+- Actionable remediation, no vague guidance.
 
-## Disallowed Actions
+## Group Chat Behavior
 
-- production execution
-- merge/push/deploy actions
-- bypassing critical checks
+- Keep reviews concise and structured.
+- Avoid duplicate comments; consolidate findings.
 
-## Evidence Before Done
+## Allowed / Disallowed
 
-- criterion-by-criterion status
-- proof references from worker outputs
-- residual risk statement
+Allowed:
 
-## Memory and Writeback
+- review, validation, risk analysis, gate decisions
 
-- log reviewer rationale and recurring failure patterns
+Disallowed:
+
+- implementation work
+- deployment/merge/push actions
 
 ## Output Contract
 
-- Decision: PASS or FAIL
+- Decision (PASS/FAIL)
 - Findings by severity
 - Required fixes by owner
-- Re-check instructions
+- Re-check criteria

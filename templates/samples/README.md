@@ -15,10 +15,12 @@ Each agent folder includes:
 - `SOUL.md`: persona, scope, hard constraints.
 - `AGENTS.md`: execution policy and guardrails.
 - `IDENTITY.md`: public persona metadata for channel-facing behavior.
+- `TOOLS.md`: role-specific tool notes and validation defaults.
 
 Shared across all agents:
 
 - `shared/USER.md`: local team preferences and project-level guardrails.
+- `shared/TOOLS.md`: environment and channel mappings shared by the swarm.
 
 ## Discord Channel Map
 
@@ -61,30 +63,41 @@ cp templates/samples/shared/USER.md ~/.openclaw/workspace-sub1/USER.md
 cp templates/samples/shared/USER.md ~/.openclaw/workspace-sub2/USER.md
 cp templates/samples/shared/USER.md ~/.openclaw/workspace-sub3/USER.md
 cp templates/samples/shared/USER.md ~/.openclaw/workspace-reviewer/USER.md
+
+cp templates/samples/shared/TOOLS.md ~/.openclaw/workspace-orchestrator/TOOLS.shared.md
+cp templates/samples/shared/TOOLS.md ~/.openclaw/workspace-sub1/TOOLS.shared.md
+cp templates/samples/shared/TOOLS.md ~/.openclaw/workspace-sub2/TOOLS.shared.md
+cp templates/samples/shared/TOOLS.md ~/.openclaw/workspace-sub3/TOOLS.shared.md
+cp templates/samples/shared/TOOLS.md ~/.openclaw/workspace-reviewer/TOOLS.shared.md
 ```
 
-3. Copy each role's `SOUL.md`, `AGENTS.md`, and `IDENTITY.md`.
+3. Copy each role's `SOUL.md`, `AGENTS.md`, `IDENTITY.md`, and `TOOLS.md`.
 
 ```bash
 cp templates/samples/orchestrator/SOUL.md ~/.openclaw/workspace-orchestrator/SOUL.md
 cp templates/samples/orchestrator/AGENTS.md ~/.openclaw/workspace-orchestrator/AGENTS.md
 cp templates/samples/orchestrator/IDENTITY.md ~/.openclaw/workspace-orchestrator/IDENTITY.md
+cp templates/samples/orchestrator/TOOLS.md ~/.openclaw/workspace-orchestrator/TOOLS.md
 
 cp templates/samples/sub1/SOUL.md ~/.openclaw/workspace-sub1/SOUL.md
 cp templates/samples/sub1/AGENTS.md ~/.openclaw/workspace-sub1/AGENTS.md
 cp templates/samples/sub1/IDENTITY.md ~/.openclaw/workspace-sub1/IDENTITY.md
+cp templates/samples/sub1/TOOLS.md ~/.openclaw/workspace-sub1/TOOLS.md
 
 cp templates/samples/sub2/SOUL.md ~/.openclaw/workspace-sub2/SOUL.md
 cp templates/samples/sub2/AGENTS.md ~/.openclaw/workspace-sub2/AGENTS.md
 cp templates/samples/sub2/IDENTITY.md ~/.openclaw/workspace-sub2/IDENTITY.md
+cp templates/samples/sub2/TOOLS.md ~/.openclaw/workspace-sub2/TOOLS.md
 
 cp templates/samples/sub3/SOUL.md ~/.openclaw/workspace-sub3/SOUL.md
 cp templates/samples/sub3/AGENTS.md ~/.openclaw/workspace-sub3/AGENTS.md
 cp templates/samples/sub3/IDENTITY.md ~/.openclaw/workspace-sub3/IDENTITY.md
+cp templates/samples/sub3/TOOLS.md ~/.openclaw/workspace-sub3/TOOLS.md
 
 cp templates/samples/reviewer/SOUL.md ~/.openclaw/workspace-reviewer/SOUL.md
 cp templates/samples/reviewer/AGENTS.md ~/.openclaw/workspace-reviewer/AGENTS.md
 cp templates/samples/reviewer/IDENTITY.md ~/.openclaw/workspace-reviewer/IDENTITY.md
+cp templates/samples/reviewer/TOOLS.md ~/.openclaw/workspace-reviewer/TOOLS.md
 ```
 
 4. Import identities to agent config.
