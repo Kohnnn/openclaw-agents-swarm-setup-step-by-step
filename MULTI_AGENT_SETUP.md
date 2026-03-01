@@ -115,6 +115,75 @@ Recommended files per agent workspace:
 
 ---
 
+## Step 4.1: Use-case sample injection (`templates/samples`)
+
+For the agent swarm use case, use the fixed 5-agent sample pack:
+
+- `orchestrator`
+- `sub1`
+- `sub2`
+- `sub3`
+- `reviewer`
+
+### Create sample agents and workspaces
+
+```bash
+openclaw agents add orchestrator --workspace ~/.openclaw/workspace-orchestrator
+openclaw agents add sub1 --workspace ~/.openclaw/workspace-sub1
+openclaw agents add sub2 --workspace ~/.openclaw/workspace-sub2
+openclaw agents add sub3 --workspace ~/.openclaw/workspace-sub3
+openclaw agents add reviewer --workspace ~/.openclaw/workspace-reviewer
+```
+
+### Inject shared `USER.md` into all workspaces
+
+```bash
+cp templates/samples/shared/USER.md ~/.openclaw/workspace-orchestrator/USER.md
+cp templates/samples/shared/USER.md ~/.openclaw/workspace-sub1/USER.md
+cp templates/samples/shared/USER.md ~/.openclaw/workspace-sub2/USER.md
+cp templates/samples/shared/USER.md ~/.openclaw/workspace-sub3/USER.md
+cp templates/samples/shared/USER.md ~/.openclaw/workspace-reviewer/USER.md
+```
+
+### Inject role files (`SOUL.md`, `AGENTS.md`, `IDENTITY.md`)
+
+```bash
+cp templates/samples/orchestrator/SOUL.md ~/.openclaw/workspace-orchestrator/SOUL.md
+cp templates/samples/orchestrator/AGENTS.md ~/.openclaw/workspace-orchestrator/AGENTS.md
+cp templates/samples/orchestrator/IDENTITY.md ~/.openclaw/workspace-orchestrator/IDENTITY.md
+
+cp templates/samples/sub1/SOUL.md ~/.openclaw/workspace-sub1/SOUL.md
+cp templates/samples/sub1/AGENTS.md ~/.openclaw/workspace-sub1/AGENTS.md
+cp templates/samples/sub1/IDENTITY.md ~/.openclaw/workspace-sub1/IDENTITY.md
+
+cp templates/samples/sub2/SOUL.md ~/.openclaw/workspace-sub2/SOUL.md
+cp templates/samples/sub2/AGENTS.md ~/.openclaw/workspace-sub2/AGENTS.md
+cp templates/samples/sub2/IDENTITY.md ~/.openclaw/workspace-sub2/IDENTITY.md
+
+cp templates/samples/sub3/SOUL.md ~/.openclaw/workspace-sub3/SOUL.md
+cp templates/samples/sub3/AGENTS.md ~/.openclaw/workspace-sub3/AGENTS.md
+cp templates/samples/sub3/IDENTITY.md ~/.openclaw/workspace-sub3/IDENTITY.md
+
+cp templates/samples/reviewer/SOUL.md ~/.openclaw/workspace-reviewer/SOUL.md
+cp templates/samples/reviewer/AGENTS.md ~/.openclaw/workspace-reviewer/AGENTS.md
+cp templates/samples/reviewer/IDENTITY.md ~/.openclaw/workspace-reviewer/IDENTITY.md
+```
+
+### Import identity for each agent
+
+```bash
+openclaw agents set-identity --workspace ~/.openclaw/workspace-orchestrator --from-identity
+openclaw agents set-identity --workspace ~/.openclaw/workspace-sub1 --from-identity
+openclaw agents set-identity --workspace ~/.openclaw/workspace-sub2 --from-identity
+openclaw agents set-identity --workspace ~/.openclaw/workspace-sub3 --from-identity
+openclaw agents set-identity --workspace ~/.openclaw/workspace-reviewer --from-identity
+```
+
+Use `templates/samples/openclaw.discord.swarm.sample.json5` as your routing base
+and `templates/samples/PROMPTS.md` for role prompt starters.
+
+---
+
 ## Step 5: Per-agent model/provider customization via CLI + config
 
 ### Option A: set default model quickly
@@ -326,6 +395,24 @@ Run one turn per agent:
 openclaw agent --agent strategy --message "status-check: strategy"
 openclaw agent --agent coding --message "status-check: coding"
 openclaw agent --agent support --message "status-check: support"
+```
+
+For the 5-agent sample pack:
+
+```bash
+openclaw agent --agent orchestrator --message "status-check: orchestrator"
+openclaw agent --agent sub1 --message "status-check: sub1"
+openclaw agent --agent sub2 --message "status-check: sub2"
+openclaw agent --agent sub3 --message "status-check: sub3"
+openclaw agent --agent reviewer --message "status-check: reviewer"
+```
+
+Validate routing and gate readiness:
+
+```bash
+openclaw agents list --bindings --json
+openclaw channels status --probe
+openclaw gateway status
 ```
 
 For orchestrator fan-out, use sub-agents:

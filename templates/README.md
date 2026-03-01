@@ -7,6 +7,11 @@ This folder contains starter templates for per-agent injection:
 - `IDENTITY.md`
 - `USER.md`
 
+Use-case packs:
+
+- `samples/` contains a complete 5-agent swarm template set for Discord:
+  `orchestrator`, `sub1`, `sub2`, `sub3`, `reviewer`, plus shared `USER.md`.
+
 ## Quick Inject Workflow
 
 1. Create agent and find workspace path.
