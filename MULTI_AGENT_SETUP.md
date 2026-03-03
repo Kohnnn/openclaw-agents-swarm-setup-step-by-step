@@ -70,6 +70,8 @@ There is no dedicated `openclaw agents set-soul` command. The supported pattern 
 1. Use `openclaw agents list --json` to find each agent workspace.
 2. Edit each workspace `SOUL.md` file directly.
 
+*(Note: When you need to cleanly reset or remove an agent's identity and soul, you will fully delete the agent, which handles pruning these injected files. See Step 9).*
+
 ### Recommended injection workflow (template-based)
 
 Use the local template pack in `templates/` to standardize agent behavior:
@@ -236,7 +238,9 @@ openclaw models auth login --provider qwen-portal --set-default
 These paths are useful when you want per-agent provider diversity without
 managing only raw API keys.
 
-### Option B: per-agent model/provider in `openclaw.json`
+### Option B: Customize `openclaw.json` (Models, API, Provider, Commands)
+
+You can use the CLI to dynamically edit your `openclaw.json` config.
 
 Read current config:
 
@@ -244,27 +248,37 @@ Read current config:
 openclaw config get agents
 ```
 
-Set per-agent model path (dot/bracket path supported):
+**Set Per-Agent Models (using your swarm's structure):**
+You can specify the model directly in the config path for each sub-agent:
 
 ```bash
-openclaw config set agents.list[0].model.primary '"anthropic/claude-opus-4-6"'
-openclaw config set agents.list[1].model.primary '"openai/gpt-5.1-codex"'
-openclaw config set agents.list[2].model.primary '"openrouter/anthropic/claude-sonnet-4-5"'
+openclaw config set agents.list[1].model.primary '"openai-codex/gpt-5.3-codex"'
+openclaw config set agents.list[5].model.primary '"openai/gpt-5.1-codex"'
 ```
 
-Provider/API examples:
+**Set Providers & API Tokens:**
+If you need to strictly set provider tokens via config (though OAuth is recommended):
 
 ```bash
-openclaw config set env.ANTHROPIC_API_KEY '"${ANTHROPIC_API_KEY}"'
 openclaw config set env.OPENAI_API_KEY '"${OPENAI_API_KEY}"'
-openclaw config set env.OPENROUTER_API_KEY '"${OPENROUTER_API_KEY}"'
 ```
 
-OAuth/token-auth model examples:
+**Global Commands and Hooks Customization:**
+Based on your setup, you might want to adjust global commands and internal hooks directly:
 
 ```bash
-openclaw config set agents.list[0].model.primary '"openai-codex/gpt-5.3-codex"'
-openclaw config set agents.list[1].model.primary '"qwen-portal/coder-model"'
+openclaw config set commands.native '"auto"'
+openclaw config set commands.restart true
+openclaw config set hooks.internal.enabled true
+openclaw config set session.dmScope '"per-channel-peer"'
+```
+
+**Enable Discord Plugin:**
+```bash
+openclaw config set plugins.entries.discord.enabled true
+openclaw config set channels.discord.enabled true
+openclaw config set channels.discord.token '"YOUR_DISCORD_BOT_TOKEN"'
+openclaw config set channels.discord.groupPolicy '"allowlist"'
 ```
 
 Channel command behavior and routing are configured under `channels.*`, `bindings`,
@@ -294,27 +308,26 @@ Use `config.apply` for full config replace when you have a controlled payload.
 
 ---
 
-## Step 7: Connect and manage multiple messaging accounts
+## Step 7: Connect and manage multiple messaging accounts (Discord Swarm)
 
-### Login accounts
+For the Discord swarm workflow, you can either configure it continuously via `openclaw.json` as shown in Step 5, or register an explicit Discord account connection. 
 
-```bash
-openclaw channels login --channel whatsapp --account personal
-openclaw channels login --channel whatsapp --account biz
-```
+*(OpenClaw supports running multiple Discord bots. If relying solely on one token for the channel, it operates as the "default" account).*
 
-Configure Telegram/Discord/Slack accounts via onboarding or `channels.*.accounts`
-in config.
+### Bind the Swarm Agents to Discord
 
-### Bind accounts to agent roles
+Bind your agents specifically to the Discord channel so they capture events and handle tasks:
 
 ```bash
-openclaw agents bind --agent strategy --bind telegram:founder
-openclaw agents bind --agent coding --bind discord:engineering
-openclaw agents bind --agent support --bind whatsapp:biz
+openclaw agents bind --agent orchestrator --bind discord
+openclaw agents bind --agent build1 --bind discord
+openclaw agents bind --agent build2 --bind discord
+openclaw agents bind --agent build3 --bind discord
+openclaw agents bind --agent plan --bind discord
+openclaw agents bind --agent review --bind discord
 ```
 
-Check routing table:
+Check your routing table:
 
 ```bash
 openclaw agents bindings --json
@@ -331,29 +344,40 @@ Binding rules that matter:
 
 ## Step 8: Finalize swarm routing in `openclaw.json`
 
-Use explicit multi-agent routing:
+For advanced Discord isolation, you might want specific sub-agents to only reply in certain Discord guild text channels (or specific roles). 
+
+Use explicit multi-agent routing inside `openclaw.json`'s `bindings` array:
 
 ```json
 {
   "session": {
-    "dmScope": "per-account-channel-peer"
+    "dmScope": "per-channel-peer"
   },
   "bindings": [
     {
-      "agentId": "strategy",
-      "match": { "channel": "telegram", "accountId": "founder" }
+      "agentId": "main",
+      "match": { "channel": "discord", "accountId": "default" }
     },
     {
-      "agentId": "coding",
-      "match": { "channel": "discord", "accountId": "engineering" }
+      "agentId": "orchestrator",
+      "match": { 
+        "channel": "discord", 
+        "guildId": "1477565489772232734" 
+      }
     },
     {
-      "agentId": "support",
-      "match": { "channel": "whatsapp", "accountId": "biz" }
+      "agentId": "review",
+      "match": { 
+        "channel": "discord", 
+        "guildId": "1477565489772232734",
+        "peer": { "kind": "channel", "id": "1477565489772232736" }
+      }
     }
   ]
 }
 ```
+
+*Note: The exact `guildId` and channel `id` should match your Discord server. Peer matches and guild inheritance determine which agent replies to a message.*
 
 Validate and restart if needed:
 
@@ -367,24 +391,25 @@ openclaw gateway status
 
 ## Step 9: Remove an agent safely (delete + cleanup)
 
-When decommissioning an agent, do cleanup in this order:
+When decommissioning an agent (e.g., completely resetting a bugged sub-agent or fully removing its identity and injected `SOUL`), do cleanup in this strict order:
 
 1. Remove bindings.
 
 ```bash
-openclaw agents unbind --agent support --all
+openclaw agents unbind --agent build3 --all
 ```
 
 2. Verify there are no routes left.
 
 ```bash
-openclaw agents bindings --agent support --json
+openclaw agents bindings --agent build3 --json
 ```
 
-3. Delete the agent and prune state/workspace.
+3. Delete the agent and prune state/workspace. 
+This command handles the cleanup of the agent's identity, injected `SOUL.md`, `AGENTS.md`, and local state configurations linked to it.
 
 ```bash
-openclaw agents delete support
+openclaw agents delete build3
 ```
 
 4. Re-check global routing and health.
@@ -395,8 +420,7 @@ openclaw channels status --probe
 openclaw gateway status
 ```
 
-This prevents orphaned routing entries and avoids inbound traffic hitting a
-deleted role.
+This prevents orphaned routing entries, properly deregisters them from your Discord integrations, and avoids inbound traffic hitting a deleted role.
 
 ---
 
