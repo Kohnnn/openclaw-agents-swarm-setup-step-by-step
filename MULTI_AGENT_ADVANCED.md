@@ -66,30 +66,68 @@ Your `openclaw.json` bindings would look like this:
 
 ## 2. Per-Agent Model & API Provider Configuration
 
-In a swarm, you often want different agents utilizing different models based on their role's complexity to save costs or optimize performance.
+In a swarm, you almost always want different agents utilizing different models based on their role's complexity to save costs or optimize performance.
 
-For example, your `orchestrator` might need the deep logic of `anthropic/claude-opus-4-6`, while a basic `reviewer` agent might run perfectly fine (and cheaply) on a local `ollama` model.
+### Swarm Model & Provider Comparison Table
+
+When deciding which "AI Plan" to wire into your agent, consider this comparison of popular providers supported natively:
+
+| Provider | Hosting Type | Auth Pattern | Best For / Swarm Use Case | Example Prefix |
+| :--- | :--- | :--- | :--- | :--- |
+| **OpenAI** | Cloud | API Key & OAuth | Complex orchestration, deep reasoning, primary planning. | `openai/gpt-5.3-codex` |
+| **Anthropic** | Cloud | API Key & App Token | Heavy context windows, nuanced code reviews. | `anthropic/claude-opus-4-6` |
+| **Ollama** | Local | (None) | Maximum privacy, zero API cost, baseline chat/reviewer agents running on your GPU. | `ollama/llama3` |
+| **OpenRouter** | Cloud (Aggregator) | API Key | Consolidating billing across multiple models (e.g., using both Anthropic and Google via one key). | `openrouter/anthropic/claude-` |
+| **Qwen (Alibaba)** | Cloud | API Key & OAuth | Exceptional open-weight performance, great for specialized "coder" sub-agents. | `qwen/qwen-max` |
+| **GLM (Zhipu)** | Cloud | API Key | Complex reasoning. | `glm/glm-4` |
+| **MiniMax** | Cloud | API Key | General chat and workflow execution. | `minimax/abab6.5-chat` |
 
 ### Setting Models via CLI
 
 You can explicitly set the primary model for a specific agent directly through the CLI by referencing its array index from `openclaw agents list`:
 
 ```bash
-# Set Orchestrator (Agent 0) to Claude Opus
+# Complex Planning Agent (Tier 1)
 openclaw config set agents.list[0].model.primary '"anthropic/claude-opus-4-6"'
 
-# Set Coder (Agent 1) to OpenAI Codex via OAuth
-openclaw config set agents.list[1].model.primary '"openai-codex/gpt-5.3-codex"'
+# Specialized Coder Agent (Tier 2 - Alibaba Qwen)
+openclaw config set agents.list[1].model.primary '"qwen/qwen-max"'
 
-# Set Reviewer (Agent 2) to Local Ollama
-openclaw config set agents.list[2].model.primary '"ollama/llama3"'
+# Coder via open-source OAuth portal
+openclaw config set agents.list[1].model.primary '"qwen-portal/coder-model"'
+
+# Aggregated Cost/Billing (OpenRouter Model)
+openclaw config set agents.list[2].model.primary '"openrouter/anthropic/claude-3.5-sonnet"'
+
+# Foreign Reasoning Agents (MiniMax / GLM)
+openclaw config set agents.list[3].model.primary '"glm/glm-4"'
+openclaw config set agents.list[4].model.primary '"minimax/abab6.5-chat"'
+
+# Cost-Free, Private Reviewer Agent (Tier 3 - Local Ollama)
+openclaw config set agents.list[5].model.primary '"ollama/llama3"'
 ```
 
-### Supported Provider Connections
+### Injecting Specific Provider Tokens
 
-- **Standard Cloud APIs**: Use raw API keys (e.g., `openai/gpt-4o`, `anthropic/claude-3-5-sonnet`).
-- **OAuth / Setup-Tokens**: Advanced paths like `openai-codex` or `anthropic` setup-tokens allow connecting without managing raw, easily leaked API keys.
-- **Local Providers**: Providers like `ollama` allow you to run models entirely on your own hardware, free of API costs, assuming your gateway host has the GPU resources.
+If you are not using `openclaw onboard` OAuth (like `openai-codex` or `qwen-portal`), you must provide standard API keys.
+
+You inject these securely into the `openclaw.json` `env` config using the CLI:
+
+```bash
+# Aggregator Keys
+openclaw config set env.OPENROUTER_API_KEY '"YOUR_OPENROUTER_KEY"'
+
+# Standard Cloud Keys
+openclaw config set env.OPENAI_API_KEY '"YOUR_OPENAI_KEY"'
+openclaw config set env.ANTHROPIC_API_KEY '"YOUR_ANTHROPIC_KEY"'
+
+# Specialized Region Keys
+openclaw config set env.DASHSCOPE_API_KEY '"YOUR_ALIBABA_QWEN_KEY"'
+openclaw config set env.ZHIPU_API_KEY '"YOUR_GLM_KEY"'
+openclaw config set env.MINIMAX_API_KEY '"YOUR_MINIMAX_KEY"'
+```
+
+*Note: `ollama` natively requires no API key assuming the Ollama daemon is running on your localhost gateway.*
 
 ---
 
