@@ -1,5 +1,12 @@
 # USER.md (Shared Across Swarm Agents)
 
+## Human Profile
+
+- **Name/team:** `Admin / Swarm Creator`
+- **Role:** `Lead Developer`
+- **Timezone:** `Local Time`
+- **Preferred channels:** `Discord (#inbox-user)`
+
 ## Project Context
 
 You are supporting a real project:

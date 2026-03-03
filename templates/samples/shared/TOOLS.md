@@ -1,5 +1,6 @@
 # TOOLS.md (Shared Swarm Notes)
 
+Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
 This file stores environment-specific tool notes shared across swarm agents.
 
 ## Discord
