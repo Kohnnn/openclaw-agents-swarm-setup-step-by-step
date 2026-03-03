@@ -129,6 +129,59 @@ openclaw config set env.MINIMAX_API_KEY '"YOUR_MINIMAX_KEY"'
 
 *Note: `ollama` natively requires no API key assuming the Ollama daemon is running on your localhost gateway.*
 
+### Advanced Provider Setups
+
+If you want to avoid managing raw API keys entirely (especially in enterprise swarms), or if you need to rely on fully local hardware, OpenClaw provides advanced authentication paths:
+
+#### 1. Fully Local Hardware Integration (Ollama)
+
+To run agents entirely on your own GPU without cloud expenses:
+
+1. **Install and run the Ollama daemon** on the same machine hosting your OpenClaw Gateway.
+2. **Pull a tool-capable model** using the standard Ollama CLI:
+   
+   ```bash
+   ollama pull llama3.3
+   ollama pull qwen2.5-coder:32b
+   ```
+
+3. **Wire your agent** to the pulled model:
+
+   ```bash
+   openclaw config set agents.list[...].model.primary '"ollama/llama3"'
+   ```
+
+*If your Ollama instance runs remotely (e.g., on a dedicated GPU server rather than the Gateway host), explicitly map the base URL in your config:*
+```bash
+openclaw config set models.providers.ollama.baseUrl '"http://your-gpu-host:11434"'
+```
+
+#### 2. Cloud Providers via OAuth / Setup-Tokens
+
+Rather than injecting `OPENAI_API_KEY`, you can bind individual agents using interactive Auth portals to keep credentials siloed securely.
+
+**OpenAI (Codex Subscription)**
+Use the built-in wizard or the explicit auth command to log in via your browser:
+```bash
+openclaw models auth login --provider openai-codex
+```
+*Your agent will now natively support `openai-codex/gpt-5.3-codex`.*
+
+**Qwen (Alibaba OAuth Portal)**
+First, explicitly enable the Qwen portal plugin, then authenticate:
+```bash
+openclaw plugins enable qwen-portal-auth
+openclaw models auth login --provider qwen-portal --set-default
+```
+*Your agent will now natively support `qwen-portal/coder-model`.*
+
+**Anthropic (Claude Setup-Token)**
+Anthropic uses a "setup-token" workflow. First, generate a token using Anthropic's CLI tools (`claude setup-token`), then pass it to your OpenClaw agent:
+```bash
+openclaw models auth paste-token --provider anthropic
+```
+*(You can also paste this setup-token during the `openclaw onboard` interactive wizard).*
+
 ---
 
 ## 3. Strict Identity and Authentication Isolation
