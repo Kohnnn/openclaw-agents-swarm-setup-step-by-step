@@ -182,6 +182,44 @@ openclaw models auth paste-token --provider anthropic
 ```
 *(You can also paste this setup-token during the `openclaw onboard` interactive wizard).*
 
+#### 3. Using Multiple OAuth Accounts
+Because OAuth credentials (and setup-tokens) are saved strictly inside an agent's `agentDir` (`~/.openclaw/agents/<agentId>/agent/auth-profiles.json`), you can seamlessly use **different OAuth accounts for different agents**. 
+To assign a second OpenAI Codex account to a secondary agent:
+1. Ensure the gateway targets the specific agent (e.g., `openclaw shell --agent <agentId2>`).
+2. Run the login flow again `openclaw models auth login --provider openai-codex`.
+3. Log in with the secondary account. The credentials will save *only* to `<agentId2>`, completely avoiding conflicts with your primary orchestrator's account.
+
+### Advanced API Key Injection & Rotation
+
+If you are using standard API keys, OpenClaw offers native rotation and fallback mechanisms to prevent workflow halts during rate limits (e.g., getting a `429 Too Many Requests`).
+
+You inject these securely into the `openclaw.json` `env` config.
+
+**1. Standard Injection**
+```bash
+openclaw config set env.OPENAI_API_KEY '"YOUR_OPENAI_KEY"'
+```
+
+**2. Comma-Separated Key Rotation**
+If you have multiple keys for the same provider, pass them as a comma-separated list. OpenClaw will automatically use the next key if the primary hits a quota/rate limit:
+```bash
+openclaw config set env.ANTHROPIC_API_KEYS '"KEY1,KEY2,KEY3"'
+```
+
+**3. Numbered Key Fallbacks**
+You can also set explicit numbered fallbacks which the system will cycle through on `429` blockages:
+```bash
+openclaw config set env.OPENAI_API_KEY_1 '"FALLBACK_KEY_1"'
+openclaw config set env.OPENAI_API_KEY_2 '"FALLBACK_KEY_2"'
+```
+
+**4. High-Priority Live Overrides**
+When live-debugging a specific agent where you need to temporarily override the swarm's keys without deleting the configured fallbacks, use the `LIVE` prefix:
+```bash
+export OPENCLAW_LIVE_OPENAI_KEY="TEMP_DEBUG_KEY"
+openclaw serve
+```
+
 ---
 
 ## 3. Strict Identity and Authentication Isolation
