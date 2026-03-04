@@ -22,12 +22,12 @@ Messages are routed to agents based on the rules defined in your `openclaw.json`
 5. **Channel Match**: The entire platform (e.g., *any* Discord message).
 6. **Fallback Default**: If no match, it hits the default agent (usually `main`).
 
-### Example: Wiring a Discord Swarm
+### Example: Wiring the FTS Discord Swarm
 
-Assume you have three agents: an `orchestrator`, a `coder`, and a `reviewer`. You want:
-- The `orchestrator` to answer DMs.
-- The `coder` to only respond in the `#backend-dev` text channel.
-- The `reviewer` to only respond in the `#code-reviews` text channel.
+Assume you have the FTS 9-agent pack. You want each agent handling its specific department channel:
+- The `orchestrator` to answer DMs and the `#orchestrator` channel
+- Engineering agents (sub1, sub2, sub3, data_engineer) to their respective channels
+- QA/Compliance agents to #review, #testing, #compliance
 
 Your `openclaw.json` bindings would look like this:
 
@@ -42,25 +42,40 @@ Your `openclaw.json` bindings would look like this:
       }
     },
     {
-      "agentId": "coder",
-      "match": { 
-        "channel": "discord",
-        "guildId": "123456789012345678",
-        "peer": { "kind": "channel", "id": "999999999999999991" } 
+      "agentId": "orchestrator",
+      "match": { "channel": "discord", "guildId": "YOUR_GUILD_ID",
+        "peer": { "kind": "channel", "id": "ORCHESTRATOR_CHANNEL_ID" }
+      }
+    },
+    {
+      "agentId": "sub1",
+      "match": { "channel": "discord", "guildId": "YOUR_GUILD_ID",
+        "peer": { "kind": "channel", "id": "FRONTEND_CHANNEL_ID" }
+      }
+    },
+    {
+      "agentId": "sub2",
+      "match": { "channel": "discord", "guildId": "YOUR_GUILD_ID",
+        "peer": { "kind": "channel", "id": "BACKEND_CHANNEL_ID" }
+      }
+    },
+    {
+      "agentId": "sub3",
+      "match": { "channel": "discord", "guildId": "YOUR_GUILD_ID",
+        "peer": { "kind": "channel", "id": "DEVOPS_CHANNEL_ID" }
       }
     },
     {
       "agentId": "reviewer",
-      "match": { 
-        "channel": "discord",
-        "guildId": "123456789012345678",
-        "peer": { "kind": "channel", "id": "999999999999999992" } 
+      "match": { "channel": "discord", "guildId": "YOUR_GUILD_ID",
+        "peer": { "kind": "channel", "id": "REVIEW_CHANNEL_ID" }
       }
     }
   ]
 }
 ```
-*(You must replace `guildId` and `id` with your actual Discord server and channel IDs).*
+*(Replace `YOUR_GUILD_ID` and channel IDs with your actual Discord server/channel IDs.)*
+
 
 ---
 

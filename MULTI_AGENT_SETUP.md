@@ -121,22 +121,30 @@ Recommended files per agent workspace:
 
 ## Step 4.1: Use-case sample injection (`templates/samples`)
 
-For the agent swarm use case, use the fixed 5-agent sample pack:
+For the agent swarm use case, use the FTS 9-agent sample pack:
 
-- `orchestrator`
-- `sub1`
-- `sub2`
-- `sub3`
-- `reviewer`
+- `orchestrator` (Team Leader, Claude)
+- `security_architect` (Senior, Gemini)
+- `sub1` (Frontend Engineer, Senior, Codex)
+- `sub2` (Backend Engineer, Junior, Claude)
+- `sub3` (DevOps & Cloud, Junior, Gemini)
+- `data_engineer` (Senior, Codex)
+- `reviewer` (QA Team Leader, Codex)
+- `test_automation` (Senior, Claude)
+- `compliance_auditor` (Junior, Gemini)
 
 ### Create sample agents and workspaces
 
 ```bash
 openclaw agents add orchestrator --workspace ~/.openclaw/workspace-orchestrator
+openclaw agents add security_architect --workspace ~/.openclaw/workspace-security_architect
 openclaw agents add sub1 --workspace ~/.openclaw/workspace-sub1
 openclaw agents add sub2 --workspace ~/.openclaw/workspace-sub2
 openclaw agents add sub3 --workspace ~/.openclaw/workspace-sub3
+openclaw agents add data_engineer --workspace ~/.openclaw/workspace-data_engineer
 openclaw agents add reviewer --workspace ~/.openclaw/workspace-reviewer
+openclaw agents add test_automation --workspace ~/.openclaw/workspace-test_automation
+openclaw agents add compliance_auditor --workspace ~/.openclaw/workspace-compliance_auditor
 ```
 
 ### Inject shared `USER.md` and `TOOLS.md` into all workspaces

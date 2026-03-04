@@ -17,6 +17,7 @@
 - [March 2026 Refresh](#-march-2026-refresh)
 - [What This Repo Is](#-what-this-repo-is)
 - [Quick Start (OpenClaw Host)](#-quick-start-openclaw-host)
+- [Claw-Empire: AI Agent Office](#️-claw-empire-ai-agent-office)
 - [Architecture: Agent Progression](#-architecture-agent-progression)
 - [Models: Latest Provider Snapshot](#-models-latest-provider-snapshot)
 - [Messaging Apps: Latest Channel Snapshot](#-messaging-apps-latest-channel-snapshot)
@@ -36,20 +37,23 @@
 - **Messaging docs now list 20+ channels**, including WhatsApp, Telegram, Discord, Slack, Signal, Teams, Matrix, Zalo, and more.
 - **Deployment guide rewritten for multi-agent** using current `openclaw agents`, bindings, and sub-agent patterns.
 - **Use cases updated** with newer community patterns from `awesome-openclaw-usecases` (including multi-agent specialized team and custom morning brief).
+- **Claw-Empire integration added**: 1-click setup via `setup_claw_empire.bat` now includes the **FTS: Fintech Startup** office pack (9-agent autonomous team) and applies custom source overrides automatically.
+- **FTS Office Pack**: 3 departments, 9 agents (Orchestrator, Security Architect, Sub1-3, Data Engineer, Reviewer, Test Automation Engineer, Compliance Auditor) pre-registered in the `fts` workflow pack key.
 
 ---
 
 ## ✅ What This Repo Is
 
-This repository is **docs + images** for OpenClaw ecosystem deployment patterns:
+This repository is **docs + images + integration templates** for OpenClaw ecosystem deployment patterns:
 
 - [`OPENCLAW_SETUP.md`](OPENCLAW_SETUP.md): current model and messaging setup.
 - [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md): current multi-agent setup and routing.
 - [`MULTI_AGENT_SETUP.md`](MULTI_AGENT_SETUP.md): initial multi-agent setup.
-
+- [`CLAW_EMPIRE_SETUP.md`](CLAW_EMPIRE_SETUP.md): install and configure the Claw-Empire AI office simulator.
 - [`USECASES.md`](USECASES.md): curated real-world use-case ideas.
+- [`templates/claw-empire-integration/`](templates/claw-empire-integration/): FTS Office Pack agents, source overrides, and registration scripts.
 
-It is not a runnable app codebase by itself.
+It is not a runnable app codebase by itself — but it does ship integration helpers for launching a fully pre-configured Claw-Empire instance.
 
 ---
 
@@ -68,7 +72,36 @@ Then continue with:
 1. [`OPENCLAW_SETUP.md`](OPENCLAW_SETUP.md) for models + channels.
 2. [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md) for multi-agent routing.
 3. [`MULTI_AGENT_SETUP.md`](MULTI_AGENT_SETUP.md) for multi-agent setup.
-4. [`USECASES.md`](USECASES.md) to pick a workflow blueprint.
+4. [`CLAW_EMPIRE_SETUP.md`](CLAW_EMPIRE_SETUP.md) for the AI office simulator + FTS pack.
+5. [`USECASES.md`](USECASES.md) to pick a workflow blueprint.
+
+---
+
+## 🏢 Claw-Empire: AI Agent Office
+
+[Claw-Empire](https://github.com/GreenSheep01201/claw-empire) transforms your OpenClaw swarm into a virtual software company. Run the 1-click setup to get started:
+
+```powershell
+.\setup_claw_empire.bat
+```
+
+This will clone the repo, install dependencies, apply the **FTS: Fintech Startup** custom source overrides, rebuild the app, and register all 9 agents. Then launch it with:
+
+```powershell
+.\start_claw_empire.bat
+```
+
+### FTS: Fintech Startup — Office Pack
+
+This pack ships a compact autonomous team across 3 departments:
+
+| Dept | Key | Agents |
+|---|---|---|
+| Planning & Architecture | `planning` | Orchestrator (Claude, TL) + Security Architect (Gemini, Sr) |
+| Core Engineering | `dev` | Sub1 Frontend (Codex, Sr), Sub2 Backend (Claude, Jr), Sub3 DevOps (Gemini, Jr), Data Engineer (Codex, Sr) |
+| Quality & Compliance | `qa` | Reviewer (Codex, TL), Test Automation (Claude, Sr), Compliance Auditor (Gemini, Jr) |
+
+See [`templates/claw-empire-integration/FTS_USE_CASE.md`](templates/claw-empire-integration/FTS_USE_CASE.md) for the full architecture description.
 
 ---
 
@@ -257,6 +290,8 @@ Operational note: fastest setup is usually Telegram; WhatsApp needs QR pairing a
 - **Initial setup + channels:** [OPENCLAW_SETUP.md](OPENCLAW_SETUP.md)
 - **Main step-by-step:** [MULTI_AGENT_SETUP.md](MULTI_AGENT_SETUP.md)
 - **Deployment guide:** [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)
+- **Claw-Empire office sim:** [CLAW_EMPIRE_SETUP.md](CLAW_EMPIRE_SETUP.md)
+- **FTS Pack details:** [templates/claw-empire-integration/FTS_USE_CASE.md](templates/claw-empire-integration/FTS_USE_CASE.md)
 - **Explore Use Cases:** [USECASES.md](USECASES.md)
 - **Team pattern reference:** [Multi-Agent Specialized Team](https://github.com/hesamsheikh/awesome-openclaw-usecases/blob/main/usecases/multi-agent-team.md)
 - **Content pipeline reference:** [Multi-Agent Content Factory](https://github.com/hesamsheikh/awesome-openclaw-usecases/blob/main/usecases/content-factory.md)

@@ -8,6 +8,7 @@ Primary source: [awesome-openclaw-usecases](https://github.com/hesamsheikh/aweso
 
 ## 🚀 New and Notable (2026)
 
+- **FTS: Fintech Startup Autonomous Team:** 9-agent compact fintech dev org with planning, engineering, and compliance departments — see [`templates/claw-empire-integration/FTS_USE_CASE.md`](templates/claw-empire-integration/FTS_USE_CASE.md).
 - **Multi-Agent Specialized Team:** strategy + dev + marketing + business agents coordinated from one chat.
 - **Custom Morning Brief:** fully personalized daily brief with tasks, news, and recommended actions.
 - **Family Calendar & Household Assistant:** combines schedules, reminders, and home inventory workflows.
@@ -76,6 +77,7 @@ Primary source: [awesome-openclaw-usecases](https://github.com/hesamsheikh/aweso
 
 ## 💰 Finance and Trading
 
+- **FTS: Fintech Startup Pack:** pre-built 9-agent autonomous team (Orchestrator + Security Architect + 4 Engineering + QA Lead + 2 Compliance roles). Ships inside the `setup_claw_empire.bat` installer — see [`FTS_USE_CASE.md`](templates/claw-empire-integration/FTS_USE_CASE.md).
 - **Polymarket Autopilot:** paper-trading style automation and performance reporting.
 
 Use strict safety controls and small limits for any finance-related automation.

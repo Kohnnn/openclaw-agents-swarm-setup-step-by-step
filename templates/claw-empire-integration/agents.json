@@ -1,0 +1,83 @@
+[
+    {
+        "name": "Orchestrator",
+        "description": "Project Manager and Task Router",
+        "department_id": "planning",
+        "role": "team_leader",
+        "cli_provider": "claude",
+        "avatar_emoji": "👔",
+        "personality": "Strategic and organized leader who delegates tasks."
+    },
+    {
+        "name": "Security Architect",
+        "description": "Compliance and DevSecOps Lead",
+        "department_id": "planning",
+        "role": "senior",
+        "cli_provider": "gemini",
+        "avatar_emoji": "🛡️",
+        "personality": "Meticulous architect focused on security and fintech compliance."
+    },
+    {
+        "name": "Sub1",
+        "description": "Frontend Engineer",
+        "department_id": "dev",
+        "role": "senior",
+        "cli_provider": "codex",
+        "avatar_emoji": "💻",
+        "personality": "Fast and precise UI/UX implementation specialist."
+    },
+    {
+        "name": "Sub2",
+        "description": "Backend Engineer",
+        "department_id": "dev",
+        "role": "junior",
+        "cli_provider": "claude",
+        "avatar_emoji": "⚙️",
+        "personality": "Analytical engineer designing robust API and database schemas."
+    },
+    {
+        "name": "Sub3",
+        "description": "DevOps & Cloud Engineer",
+        "department_id": "dev",
+        "role": "junior",
+        "cli_provider": "gemini",
+        "avatar_emoji": "☁️",
+        "personality": "Infrastructure specialist managing CI/CD and deployments."
+    },
+    {
+        "name": "Data Engineer",
+        "description": "Data Pipeline and Reporting",
+        "department_id": "dev",
+        "role": "senior",
+        "cli_provider": "codex",
+        "avatar_emoji": "📊",
+        "personality": "Expert in data pipelines and transaction processing."
+    },
+    {
+        "name": "Reviewer",
+        "description": "Code Reviewer and QA Lead",
+        "department_id": "qa",
+        "role": "team_leader",
+        "cli_provider": "codex",
+        "avatar_emoji": "👓",
+        "personality": "Strict QA lead who ensures code elegance and test coverage."
+    },
+    {
+        "name": "Test Automation Engineer",
+        "description": "E2E and Integration Testing",
+        "department_id": "qa",
+        "role": "senior",
+        "cli_provider": "claude",
+        "avatar_emoji": "🤖",
+        "personality": "Diligent automation builder for rigorous test suites."
+    },
+    {
+        "name": "Compliance Auditor",
+        "description": "Financial Regulations Auditor",
+        "department_id": "qa",
+        "role": "junior",
+        "cli_provider": "gemini",
+        "avatar_emoji": "⚖️",
+        "personality": "Keen-eyed auditor verifying code against local regulations."
+    }
+]

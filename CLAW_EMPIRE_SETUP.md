@@ -27,25 +27,32 @@ corepack enable
 
 ### Option A: One-Click Setup (Recommended)
 
-**Windows PowerShell:**
+Run the included **`setup_claw_empire.bat`** script (Windows) to handle the complete setup process automatically. 
+
+The installer will:
+- Clone or automatically pull the latest updates from the [Claw-Empire repository](https://github.com/GreenSheep01201/claw-empire)
+- Initialize Git submodules
+- Install all dependencies via pnpm
+- Create `.env` from `.env.example`
+- Generate a random `OAUTH_ENCRYPTION_SECRET`
+- Auto-generate `INBOX_WEBHOOK_SECRET` if missing
+- **Apply FTS: Fintech Startup source overrides** from `templates/claw-empire-integration/`
+- **Rebuild the app** (`pnpm build`) with the custom pack included
+- **Register all 9 FTS agents** into the SQLite database
+
+> **Note:** The AGENTS.md orchestration rules are injected automatically on every dev server start via the `predev:local` hook — no manual `pnpm setup` needed.
+
+**Windows Command Prompt / PowerShell:**
 ```powershell
-git clone https://github.com/GreenSheep01201/claw-empire.git
-cd claw-empire
-git submodule update --init --recursive
-powershell -ExecutionPolicy Bypass -File .\install.ps1
+.\setup_claw_empire.bat
 ```
+
+> **Autoupdates**: Running `setup_claw_empire.bat` at any time on an existing installation checks for and downloads new features remotely from [https://github.com/GreenSheep01201/claw-empire](https://github.com/GreenSheep01201/claw-empire) without destroying your local SQLite database or `.env`.
 
 **macOS / Linux:**
 ```bash
 git clone https://github.com/GreenSheep01201/claw-empire.git && cd claw-empire && bash install.sh
 ```
-
-The installer will:
-- Install all dependencies via pnpm
-- Create `.env` from `.env.example`
-- Generate a random `OAUTH_ENCRYPTION_SECRET`
-- Auto-generate `INBOX_WEBHOOK_SECRET` if missing
-- Inject orchestration rules into `AGENTS.md`
 
 ### Option B: Manual Setup (Fallback)
 
@@ -166,14 +173,32 @@ When setting up a new company, choose a profile that matches your workflow:
 
 | Profile | Code | Best For |
 |---|---|---|
-| `development` | DEV | Software engineering teams |
+| `development` | DEV | Software engineering teams (default) |
 | `report` | RPT | Business report generation |
 | `web_research_report` | WEB | Research & analysis |
 | `novel` | NOV | Creative writing |
 | `video_preprod` | VID | Video pre-production |
 | `roleplay` | RPG | Roleplay & simulation |
+| **`fts`** | **FTS** | **Fintech Startup — compact autonomous 9-agent crew** |
 
-For our Discord agent swarm use case, use the **`development`** profile.
+### FTS: Fintech Startup Office Pack
+
+This is the default pack shipped via the `setup_claw_empire.bat` integration. It provides a 9-agent autonomous team:
+
+| Department | Role | Provider |
+|---|---|---|
+| Planning & Architecture | Orchestrator (Team Leader) | Claude |
+| Planning & Architecture | Security Architect (Senior) | Gemini |
+| Core Engineering | Sub1 — Frontend Engineer (Senior) | Codex |
+| Core Engineering | Sub2 — Backend Engineer (Junior) | Claude |
+| Core Engineering | Sub3 — DevOps & Cloud (Junior) | Gemini |
+| Core Engineering | Data Engineer (Senior) | Codex |
+| Quality & Compliance | Reviewer (Team Leader) | Codex |
+| Quality & Compliance | Test Automation Engineer (Senior) | Claude |
+| Quality & Compliance | Compliance Auditor (Junior) | Gemini |
+
+See [`templates/claw-empire-integration/FTS_USE_CASE.md`](templates/claw-empire-integration/FTS_USE_CASE.md) for full details.
+
 
 ---
 
@@ -277,34 +302,35 @@ curl -X POST http://127.0.0.1:8790/api/inbox `
 
 ## 9. Applying to Your Agent Swarm
 
-Here's how the agent templates from `MULTI_AGENT_SETUP.md` map to Claw-Empire's virtual company:
+Here's how the FTS agents map to Claw-Empire's virtual company:
 
-| Your Agent | Claw-Empire Role | Discord Channel | CEO Directive Example |
+| Your Agent | Role | Department | Discord Channel |
 |---|---|---|---|
-| **Orchestrator** | CEO / Project Manager | `#orchestrator` | `$Plan the new API integration sprint` |
-| **Sub1 (Coder)** | Senior Developer | `#coding` | `$Implement the auth middleware` |
-| **Sub2 (Debugger)** | QA Engineer | `#debugging` | `$Fix the failing test suite` |
-| **Sub3 (Researcher)** | Research Analyst | `#research` | `$Analyze competitor pricing APIs` |
-| **Reviewer** | Code Reviewer | `#review` | `$Review PR #42 for security issues` |
+| **Orchestrator** | CEO / PM (Team Leader) | Planning & Architecture | `#orchestrator` |
+| **Security Architect** | DevSecOps & Compliance | Planning & Architecture | `#security` |
+| **Sub1** | Frontend Engineer | Core Engineering | `#frontend` |
+| **Sub2** | Backend Engineer | Core Engineering | `#backend` |
+| **Sub3** | DevOps & Cloud | Core Engineering | `#devops` |
+| **Data Engineer** | Data Pipelines | Core Engineering | `#data` |
+| **Reviewer** | QA Lead (Team Leader) | Quality & Compliance | `#review` |
+| **Test Automation Engineer** | E2E/Integration Testing | Quality & Compliance | `#testing` |
+| **Compliance Auditor** | Regulatory Audit | Quality & Compliance | `#compliance` |
+
+### CEO Directive Example (FTS use case)
+
+```powershell
+curl -X POST http://127.0.0.1:8790/api/inbox `
+  -H "content-type: application/json" `
+  -H "x-inbox-secret: YOUR_INBOX_WEBHOOK_SECRET" `
+  -d '{"source":"discord","author":"ceo","text":"$Build and launch the payment gateway MVP by Friday with full QA sign-off and security audit","project_path":"C:/Users/Admin/Desktop/PersonalWebsite/AgentsSwarm"}'
+```
 
 ### AGENTS.md Orchestration Rules
 
-The `pnpm setup` command injects CEO directive orchestration rules into your agent's `AGENTS.md` file. This teaches agents how to:
+Orchestration rules are **automatically injected** into `AGENTS.md` on every dev server start — no manual `pnpm setup` needed. This teaches agents how to:
 - Interpret `$` prefix CEO directives for priority task delegation
 - Call the Claw-Empire REST API to create tasks, assign agents, and report status
 - Work within isolated git worktrees for safe parallel development
-
-To customize the AGENTS.md path or port:
-```powershell
-# Default: auto-detects AGENTS.md location
-pnpm setup
-
-# Custom path
-pnpm setup -- --agents-path C:\Users\Admin\Desktop\PersonalWebsite\AgentsSwarm\AGENTS.md
-
-# Custom port
-pnpm setup -- --port 8790
-```
 
 ---
 

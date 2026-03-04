@@ -224,9 +224,23 @@ Operational pattern that works well:
 
 ---
 
-## 🧠 Step 7: Recommended Team Pattern
+## 🧠 Step 7: Recommended Team Patterns
 
-For solo founder teams, mirror this role split:
+### 🏦 FTS: Fintech Startup Pack (Recommended)
+
+This is the default pack shipped with the `setup_claw_empire.bat` installer. A compact 9-agent autonomous team covering all lifecycle stages:
+
+| Dept | Agents |
+|---|---|
+| Planning & Architecture | Orchestrator (TL, Claude), Security Architect (Sr, Gemini) |
+| Core Engineering | Sub1 Frontend (Sr, Codex), Sub2 Backend (Jr, Claude), Sub3 DevOps (Jr, Gemini), Data Engineer (Sr, Codex) |
+| Quality & Compliance | Reviewer (TL, Codex), Test Automation (Sr, Claude), Compliance Auditor (Jr, Gemini) |
+
+See [`CLAW_EMPIRE_SETUP.md`](CLAW_EMPIRE_SETUP.md) for the visual office setup and CEO directive workflows.
+
+### 👤 Solo Founder Pattern
+
+For a minimal founder team:
 
 - **Strategy agent:** planning, prioritization, daily recap.
 - **Coding agent:** implementation and bugfix.
