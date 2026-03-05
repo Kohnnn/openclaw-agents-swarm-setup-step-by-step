@@ -201,9 +201,12 @@ openclaw agent --agent main --message "Reply with: setup-check-ok"
 
 ---
 
-## 🔀 Step 4: Move to Multi-Agent
+## 🔀 Step 4: Next Steps (Move to Multi-Agent)
 
-After single-agent setup is healthy, follow [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md) to split workloads into dedicated agents with routing bindings and sub-agent orchestration.
+After your single-agent setup is healthy, you have two paths to scale up:
+
+1. **The Visual Simulator (Recommended):** Proceed to [`CLAW_EMPIRE_SETUP.md`](CLAW_EMPIRE_SETUP.md) to launch the full 9-agent FTS Fintech Startup inside our visual office UI.
+2. **The Manual Swarm:** Follow [`MULTI_AGENT_SETUP.md`](MULTI_AGENT_SETUP.md) for a step-by-step guide on creating and routing multiple agents in your terminal.
 
 ---
 

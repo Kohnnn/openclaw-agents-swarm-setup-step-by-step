@@ -1,12 +1,12 @@
 <div align="center">
 
-# 🤖 AgentsSwarm (Powered by OpenClaw)
+# 🤖 AgentsSwarm: OpenClaw Multi-Agent Orchestration
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![OpenClaw](https://img.shields.io/badge/Powered%20By-OpenClaw-blue.svg)](https://github.com/SamurAIGPT/awesome-openclaw)
 
-**A documentation-first playbook for deploying OpenClaw from single-agent chat to multi-agent production workflows.**
+**The ultimate playbook for building an autonomous AI Agent Swarm. From single-agent chat setups to enterprise-grade Multi-Agent Orchestration and virtual Office Simulators (Fintech Teams, QA bots, and Automated Trading structures), powered entirely by OpenClaw.**
 
 </div>
 
@@ -44,16 +44,16 @@
 
 ## ✅ What This Repo Is
 
-This repository is **docs + images + integration templates** for OpenClaw ecosystem deployment patterns:
+This repository is a comprehensive set of **docs, diagrams, and integration templates** representing modern OpenClaw ecosystem deployment patterns for **Autonomous AI Agents**:
 
-- [`OPENCLAW_SETUP.md`](OPENCLAW_SETUP.md): current model and messaging setup.
-- [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md): current multi-agent setup and routing.
-- [`MULTI_AGENT_SETUP.md`](MULTI_AGENT_SETUP.md): initial multi-agent setup.
-- [`CLAW_EMPIRE_SETUP.md`](CLAW_EMPIRE_SETUP.md): install and configure the Claw-Empire AI office simulator.
-- [`USECASES.md`](USECASES.md): curated real-world use-case ideas.
-- [`templates/claw-empire-integration/`](templates/claw-empire-integration/): FTS Office Pack agents, source overrides, and registration scripts.
+- [`OPENCLAW_SETUP.md`](OPENCLAW_SETUP.md): current model and messaging setup (Discord, Telegram).
+- [`MULTI_AGENT_SETUP.md`](MULTI_AGENT_SETUP.md): initial multi-agent workspace generation and routing.
+- [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md): advanced multi-agent operations and team topologies.
+- [`CLAW_EMPIRE_SETUP.md`](CLAW_EMPIRE_SETUP.md): install and configure the Claw-Empire visual AI office simulator.
+- [`USECASES.md`](USECASES.md): curated real-world use-case ideas (automated trading, research, content).
+- [`templates/claw-empire-integration/`](templates/claw-empire-integration/): The **FTS Office Pack**, a complete 9-agent Fintech Startup source override with Windows/Linux automated registration scripts.
 
-It is not a runnable app codebase by itself — but it does ship integration helpers for launching a fully pre-configured Claw-Empire instance.
+It acts as the neural bridge linking standard OpenClaw execution loops with the Claw-Empire interface, offering seamless 1-click deployments of complex agent swarms.
 
 ---
 
@@ -77,21 +77,28 @@ Then continue with:
 
 ---
 
-## 🏢 Claw-Empire: AI Agent Office
+## 🏢 Claw-Empire: AI Agent Office Simulator
 
-[Claw-Empire](https://github.com/GreenSheep01201/claw-empire) transforms your OpenClaw swarm into a virtual software company. Run the 1-click setup to get started:
+[Claw-Empire](https://github.com/GreenSheep01201/claw-empire) transforms your OpenClaw swarm into a visual, virtual software company. Run our 1-click setup to get started:
 
+**Windows PowerShell:**
 ```powershell
 .\setup_claw_empire.bat
 ```
 
-This will clone the repo, install dependencies, apply the **FTS: Fintech Startup** custom source overrides, rebuild the app, and register all 9 agents. Then launch it with:
-
-```powershell
-.\start_claw_empire.bat
+**macOS / Linux:**
+```bash
+./setup_claw_empire.sh
 ```
 
-### FTS: Fintech Startup — Office Pack
+This will automatically clone the repo, install Node/pnpm dependencies, apply the **FTS: Fintech Startup** custom source overrides, rebuild the app, and securely register all 9 agents into isolated databases. 
+
+Then launch the simulator UI with:
+
+**Windows:** `.\start_claw_empire.bat`
+**macOS/Linux:** `./start_claw_empire.sh`
+
+### FTS: Fintech Startup — Autonomous Office Pack
 
 This pack ships a compact autonomous team across 3 departments:
 

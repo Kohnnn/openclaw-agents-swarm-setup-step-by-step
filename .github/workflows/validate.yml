@@ -1,0 +1,26 @@
+name: JSON Validation
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate JSON files
+        run: |
+          for file in $(find . -type f -name "*.json"); do
+            echo "Validating $file"
+            jq empty "$file"
+            if [ $? -ne 0 ]; then
+              echo "::error file=$file::Invalid JSON syntax in $file"
+              exit 1
+            fi
+          done
+          echo "All JSON files are valid."

@@ -51,8 +51,10 @@ The installer will:
 
 **macOS / Linux:**
 ```bash
-git clone https://github.com/GreenSheep01201/claw-empire.git && cd claw-empire && bash install.sh
+./setup_claw_empire.sh
 ```
+
+> **Autoupdates**: Running the setup script at any time on an existing installation checks for and downloads new features remotely without destroying your local SQLite database or `.env`.
 
 ### Option B: Manual Setup (Fallback)
 
@@ -345,3 +347,12 @@ Orchestration rules are **automatically injected** into `AGENTS.md` on every dev
 | **Secrets** | `.gitignore` blocks `.env`, `*.pem`, `*.key`, `credentials.json` |
 | **Preflight** | Run `pnpm run preflight:public` before any public release |
 | **License** | Apache 2.0 — Free for personal and commercial use |
+
+---
+
+## 🔀 Next Steps
+
+Your AI Agent virtual office is now fully installed and configured!
+
+1. **Explore Blueprints:** Check out [`USECASES.md`](USECASES.md) to discover real-world examples of how teams use this structure.
+2. **Discord Routing:** If you want your company to operate via Discord channels, see [`MULTI_AGENT_ADVANCED.md`](MULTI_AGENT_ADVANCED.md).

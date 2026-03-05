@@ -77,7 +77,7 @@ Primary source: [awesome-openclaw-usecases](https://github.com/hesamsheikh/aweso
 
 ## 💰 Finance and Trading
 
-- **FTS: Fintech Startup Pack:** pre-built 9-agent autonomous team (Orchestrator + Security Architect + 4 Engineering + QA Lead + 2 Compliance roles). Ships inside the `setup_claw_empire.bat` installer — see [`FTS_USE_CASE.md`](templates/claw-empire-integration/FTS_USE_CASE.md).
+- **FTS: Fintech Startup Pack:** pre-built 9-agent autonomous team (Orchestrator + Security Architect + 4 Engineering + QA Lead + 2 Compliance roles). Ships inside the `setup_claw_empire` installer scripts — see [`FTS_USE_CASE.md`](templates/claw-empire-integration/FTS_USE_CASE.md).
 - **Polymarket Autopilot:** paper-trading style automation and performance reporting.
 
 Use strict safety controls and small limits for any finance-related automation.
@@ -102,4 +102,6 @@ Use strict safety controls and small limits for any finance-related automation.
 
 ---
 
-Ready to deploy these patterns? Go to [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md).
+## 🔀 Next Steps
+
+Ready to deploy these patterns? Go to [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md).

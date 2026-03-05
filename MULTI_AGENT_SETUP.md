@@ -133,78 +133,22 @@ For the agent swarm use case, use the FTS 9-agent sample pack:
 - `test_automation` (Senior, Claude)
 - `compliance_auditor` (Junior, Gemini)
 
-### Create sample agents and workspaces
+### Create and Inject Sample Agents
 
-```bash
-openclaw agents add orchestrator --workspace ~/.openclaw/workspace-orchestrator
-openclaw agents add security_architect --workspace ~/.openclaw/workspace-security_architect
-openclaw agents add sub1 --workspace ~/.openclaw/workspace-sub1
-openclaw agents add sub2 --workspace ~/.openclaw/workspace-sub2
-openclaw agents add sub3 --workspace ~/.openclaw/workspace-sub3
-openclaw agents add data_engineer --workspace ~/.openclaw/workspace-data_engineer
-openclaw agents add reviewer --workspace ~/.openclaw/workspace-reviewer
-openclaw agents add test_automation --workspace ~/.openclaw/workspace-test_automation
-openclaw agents add compliance_auditor --workspace ~/.openclaw/workspace-compliance_auditor
+Rather than running 30+ manual commands, use the bundled setup script to automatically create the 9 OpenClaw workspaces and copy all the specific `SOUL.md`, `IDENTITY.md`, and `TOOLS.md` files for you:
+
+```powershell
+.\templates\claw-empire-integration\setup_fts_swarm.bat
 ```
 
-### Inject shared `USER.md` and `TOOLS.md` into all workspaces
-
-```bash
-cp templates/samples/shared/USER.md ~/.openclaw/workspace-orchestrator/USER.md
-cp templates/samples/shared/USER.md ~/.openclaw/workspace-sub1/USER.md
-cp templates/samples/shared/USER.md ~/.openclaw/workspace-sub2/USER.md
-cp templates/samples/shared/USER.md ~/.openclaw/workspace-sub3/USER.md
-cp templates/samples/shared/USER.md ~/.openclaw/workspace-reviewer/USER.md
-
-cp templates/samples/shared/TOOLS.md ~/.openclaw/workspace-orchestrator/TOOLS.shared.md
-cp templates/samples/shared/TOOLS.md ~/.openclaw/workspace-sub1/TOOLS.shared.md
-cp templates/samples/shared/TOOLS.md ~/.openclaw/workspace-sub2/TOOLS.shared.md
-cp templates/samples/shared/TOOLS.md ~/.openclaw/workspace-sub3/TOOLS.shared.md
-cp templates/samples/shared/TOOLS.md ~/.openclaw/workspace-reviewer/TOOLS.shared.md
-```
-
-### Inject role files (`SOUL.md`, `AGENTS.md`, `IDENTITY.md`, `TOOLS.md`)
-
-```bash
-cp templates/samples/orchestrator/SOUL.md ~/.openclaw/workspace-orchestrator/SOUL.md
-cp templates/samples/orchestrator/AGENTS.md ~/.openclaw/workspace-orchestrator/AGENTS.md
-cp templates/samples/orchestrator/IDENTITY.md ~/.openclaw/workspace-orchestrator/IDENTITY.md
-cp templates/samples/orchestrator/TOOLS.md ~/.openclaw/workspace-orchestrator/TOOLS.md
-
-cp templates/samples/sub1/SOUL.md ~/.openclaw/workspace-sub1/SOUL.md
-cp templates/samples/sub1/AGENTS.md ~/.openclaw/workspace-sub1/AGENTS.md
-cp templates/samples/sub1/IDENTITY.md ~/.openclaw/workspace-sub1/IDENTITY.md
-cp templates/samples/sub1/TOOLS.md ~/.openclaw/workspace-sub1/TOOLS.md
-
-cp templates/samples/sub2/SOUL.md ~/.openclaw/workspace-sub2/SOUL.md
-cp templates/samples/sub2/AGENTS.md ~/.openclaw/workspace-sub2/AGENTS.md
-cp templates/samples/sub2/IDENTITY.md ~/.openclaw/workspace-sub2/IDENTITY.md
-cp templates/samples/sub2/TOOLS.md ~/.openclaw/workspace-sub2/TOOLS.md
-
-cp templates/samples/sub3/SOUL.md ~/.openclaw/workspace-sub3/SOUL.md
-cp templates/samples/sub3/AGENTS.md ~/.openclaw/workspace-sub3/AGENTS.md
-cp templates/samples/sub3/IDENTITY.md ~/.openclaw/workspace-sub3/IDENTITY.md
-cp templates/samples/sub3/TOOLS.md ~/.openclaw/workspace-sub3/TOOLS.md
-
-cp templates/samples/reviewer/SOUL.md ~/.openclaw/workspace-reviewer/SOUL.md
-cp templates/samples/reviewer/AGENTS.md ~/.openclaw/workspace-reviewer/AGENTS.md
-cp templates/samples/reviewer/IDENTITY.md ~/.openclaw/workspace-reviewer/IDENTITY.md
-cp templates/samples/reviewer/TOOLS.md ~/.openclaw/workspace-reviewer/TOOLS.md
-```
-
-### Import identity for each agent
-
-```bash
-openclaw agents set-identity --workspace ~/.openclaw/workspace-orchestrator --from-identity
-openclaw agents set-identity --workspace ~/.openclaw/workspace-sub1 --from-identity
-openclaw agents set-identity --workspace ~/.openclaw/workspace-sub2 --from-identity
-openclaw agents set-identity --workspace ~/.openclaw/workspace-sub3 --from-identity
-openclaw agents set-identity --workspace ~/.openclaw/workspace-reviewer --from-identity
-```
+This script will:
+1. `openclaw agents add` for all 9 agents.
+2. Inject the shared `USER.md` rules.
+3. Inject the role-specific `SOUL.md`, `AGENTS.md`, `IDENTITY.md`, and `TOOLS.md`.
+4. Run `openclaw agents set-identity --from-identity` so the UI/CLI picks up their names and emojis.
 
 Use `templates/samples/openclaw.discord.swarm.sample.json5` as your routing base
 and `templates/samples/PROMPTS.md` for role prompt starters.
-
 ---
 
 ## Step 5: Per-agent model/provider customization via CLI + config
@@ -442,14 +386,18 @@ openclaw agent --agent coding --message "status-check: coding"
 openclaw agent --agent support --message "status-check: support"
 ```
 
-For the 5-agent sample pack:
+For the 9-agent FTS sample pack:
 
 ```bash
 openclaw agent --agent orchestrator --message "status-check: orchestrator"
+openclaw agent --agent security_architect --message "status-check: security_architect"
 openclaw agent --agent sub1 --message "status-check: sub1"
 openclaw agent --agent sub2 --message "status-check: sub2"
 openclaw agent --agent sub3 --message "status-check: sub3"
+openclaw agent --agent data_engineer --message "status-check: data_engineer"
 openclaw agent --agent reviewer --message "status-check: reviewer"
+openclaw agent --agent test_automation --message "status-check: test_automation"
+openclaw agent --agent compliance_auditor --message "status-check: compliance_auditor"
 ```
 
 Validate routing and gate readiness:
@@ -486,3 +434,13 @@ For orchestrator fan-out, use sub-agents:
 - SOUL template reference: https://docs.openclaw.ai/reference/templates/SOUL
 - IDENTITY template reference: https://docs.openclaw.ai/reference/templates/IDENTITY
 - USER template reference: https://docs.openclaw.ai/reference/templates/USER
+
+---
+
+## 🔀 Next Steps
+
+Now that your swarm is created, what's next?
+
+1. **Routing and Architecture:** Read [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md) to understand how to operate this swarm.
+2. **Deep Dive configurations:** See [`MULTI_AGENT_ADVANCED.md`](MULTI_AGENT_ADVANCED.md) to wire specific Discord channels to specific agents (e.g. wire Sub1 to `#frontend`).
+3. **The Visual Simulator:** Use [`CLAW_EMPIRE_SETUP.md`](CLAW_EMPIRE_SETUP.md) to drop your CLI agents into an interactive virtual office.

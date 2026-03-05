@@ -228,7 +228,7 @@ Operational pattern that works well:
 
 ### 🏦 FTS: Fintech Startup Pack (Recommended)
 
-This is the default pack shipped with the `setup_claw_empire.bat` installer. A compact 9-agent autonomous team covering all lifecycle stages:
+This is the default pack shipped with the `setup_claw_empire` installer script. A compact 9-agent autonomous team covering all lifecycle stages:
 
 | Dept | Agents |
 |---|---|
@@ -258,6 +258,13 @@ Start with different model defaults per role, then tune by cost/latency.
 - Official agents CLI doc: [docs.openclaw.ai/cli/agents](https://docs.openclaw.ai/cli/agents)
 - Community multi-agent team guide: [awesome-openclaw-usecases/multi-agent-team](https://github.com/hesamsheikh/awesome-openclaw-usecases/blob/main/usecases/multi-agent-team.md)
 - Community content-factory guide: [awesome-openclaw-usecases/content-factory](https://github.com/hesamsheikh/awesome-openclaw-usecases/blob/main/usecases/content-factory.md)
+
+---
+
+## 🔀 Next Steps
+
+Your multi-agent platform is built!
+- Check out [`USECASES.md`](USECASES.md) for concrete examples of how your agents can run your business logic.
 
 ---
 
